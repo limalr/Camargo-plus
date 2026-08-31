@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BLACK STRIVE — Administração</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #070709;
+      color: white;
+    }
+
+    .login {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: min(420px, 100%);
+      background: #111114;
+      border: 1px solid #302b35;
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 20px 70px #0008;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .logo span {
+      color: #8b45e8;
+    }
+
+    h1 {
+      margin: 8px 0;
+    }
+
+    p {
+      color: #88848d;
+      line-height: 1.5;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border: 1px solid #37323d;
+      border-radius: 9px;
+      background: #0b0b0e;
+      color: white;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 9px;
+      background: #8b45e8;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #7135c4;
+    }
+
+    .error {
+      color: #ff6b6b;
+      margin-top: 12px;
+    }
+
+    .admin {
+      display: none;
+      min-height: 100vh;
+    }
+
+    header {
+      height: 72px;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0b0b0e;
+      border-bottom: 1px solid #29252e;
+    }
+
+    .logout {
+      width: auto;
+      padding: 9px 15px;
+      margin: 0;
+      background: #19171d;
+      border: 1px solid #39333f;
+    }
+
+    .content {
+      width: min(1200px, 92%);
+      margin: auto;
+      padding: 40px 0;
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: #111114;
+      border: 1px solid #29252e;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 30px;
+      color: #a866ee;
+      margin-top: 10px;
+    }
+
+    .section {
+      margin-top: 35px;
+      background: #111114;
+      border: 1px solid #29252e;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    .section h2 {
+      margin-top: 0;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      background: #19171d;
+      color: #aaa;
+    }
+
+    @media (max-width: 800px) {
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div
+  class="login"
+  id="loginScreen"
+>
+
+  <div class="login-box">
+
+    <div class="logo">
+      BLACK <span>STRIVE</span>
+    </div>
+
+    <h1>
+      Painel Administrativo
+    </h1>
+
+    <p>
+      Entre com seu usuário administrador
+      para acessar a loja.
+    </p>
+
+
+    <form
+      id="loginForm"
+    >
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Seu e-mail"
+        required
+      >
+
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Sua senha"
+        required
+      >
+
+
+      <button type="submit">
+        ENTRAR
+      </button>
+
+    </form>
+
+
+    <div
+      class="error"
+      id="loginError"
+    ></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================
+     ADMIN
+========================= -->
+
+<div
+  class="admin"
+  id="adminScreen"
+>
+
+
+  <header>
+
+    <div class="logo">
+      BLACK <span>STRIVE</span>
+    </div>
+
+
+    <button
+      class="logout"
+      id="logoutButton"
+    >
+      Sair
+    </button>
+
+  </header>
+
+
+
+  <main class="content">
+
+
+    <div class="welcome">
+
+      <h1>
+        Painel Administrativo
+      </h1>
+
+      <p>
+        Gerencie sua loja BLACK STRIVE.
+      </p>
+
+    </div>
+
+
+
+    <div class="cards">
+
+
+      <div class="card">
+
+        <div>
+          📦 Produtos
+        </div>
+
+        <strong id="productsCount">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="card">
+
+        <div>
+          🛒 Pedidos
+        </div>
+
+        <strong id="ordersCount">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="card">
+
+        <div>
+          💬 Mensagens
+        </div>
+
+        <strong id="messagesCount">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="card">
+
+        <div>
+          🏆 Campeonatos
+        </div>
+
+        <strong id="championshipsCount">
+          0
+        </strong>
+
+      </div>
+
+
+    </div>
+
+
+
+    <section class="section">
+
+      <h2>
+        Sistema
+      </h2>
+
+      <div
+        class="status"
+        id="systemStatus"
+      >
+        Conectando ao banco de dados...
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+  /*
+    ================================================
+    COLOQUE AQUI AS INFORMAÇÕES PÚBLICAS DO SUPABASE
+    ================================================
+  */
+
+  const SUPABASE_URL =
+    "https://iykwmwnajhqoglxfimip.supabase.co/rest/v1/";
+
+
+  const SUPABASE_ANON_KEY =
+    "sb_publishable__aaB-_qBO4wAvuYRwUuetA_IYNPxFFO";
+
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+
+  /* ================================================
+     LOGIN
+  ================================================ */
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+
+  loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const email =
+        document.getElementById("email").value;
+
+
+      const password =
+        document.getElementById("password").value;
+
+
+      const error =
+        document.getElementById("loginError");
+
+
+      error.textContent =
+        "";
+
+
+      const {
+        data,
+        error: loginError
+      } =
+        await supabaseClient.auth.signInWithPassword({
+
+          email: email,
+
+          password: password
+
+        });
+
+
+      if (loginError) {
+
+        error.textContent =
+          "E-mail ou senha incorretos.";
+
+        return;
+
+      }
+
+
+      showAdmin();
+
+    }
+  );
+
+
+  /* ================================================
+     MOSTRAR PAINEL
+  ================================================ */
+
+  function showAdmin() {
+
+    document
+      .getElementById("loginScreen")
+      .style.display = "none";
+
+
+    document
+      .getElementById("adminScreen")
+      .style.display = "block";
+
+
+    loadDashboard();
+
+  }
+
+
+  /* ================================================
+     VERIFICAR USUÁRIO
+  ================================================ */
+
+  async function checkUser() {
+
+    const {
+      data
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (
+      data.session
+    ) {
+
+      showAdmin();
+
+    }
+
+  }
+
+
+  /* ================================================
+     SAIR
+  ================================================ */
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener(
+      "click",
+      async function() {
+
+        await supabaseClient.auth.signOut();
+
+        location.reload();
+
+      }
+    );
+
+
+  /* ================================================
+     DASHBOARD
+  ================================================ */
+
+  async function loadDashboard() {
+
+    try {
+
+      const products =
+        await supabaseClient
+          .from("products")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      const orders =
+        await supabaseClient
+          .from("orders")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      const messages =
+        await supabaseClient
+          .from("messages")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      const championships =
+        await supabaseClient
+          .from("championships")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      document
+        .getElementById("productsCount")
+        .textContent =
+        products.count || 0;
+
+
+      document
+        .getElementById("ordersCount")
+        .textContent =
+        orders.count || 0;
+
+
+      document
+        .getElementById("messagesCount")
+        .textContent =
+        messages.count || 0;
+
+
+      document
+        .getElementById("championshipsCount")
+        .textContent =
+        championships.count || 0;
+
+
+      document
+        .getElementById("systemStatus")
+        .textContent =
+        "🟢 Sistema conectado ao Supabase.";
+
+    } catch (error) {
+
+      document
+        .getElementById("systemStatus")
+        .textContent =
+        "⚠️ Erro ao conectar ao banco de dados.";
+
+    }
+
+  }
+
+
+  /* ================================================
+     INICIAR
+  ================================================ */
+
+  checkUser();
+
+</script>
+
+
+</body>
+
+</html>
