@@ -1,0 +1,321 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOJO+ | Taekwondo, Campeonatos e Loja</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#inicio" class="logo">🥋 DOJO<span>+</span></a>
+
+    <nav>
+      <a href="#campeonatos">Campeonatos</a>
+      <a href="#noticias">Notícias</a>
+      <a href="#loja">Loja</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <button class="cart" onclick="toggleCart()">
+      🛒 <b id="count">0</b>
+    </button>
+  </div>
+</header>
+
+<section id="inicio" class="hero">
+  <div class="container hero-content">
+
+    <div>
+      <small>TAEKWONDO • EVENTOS • LOJA</small>
+
+      <h1>
+        Seu esporte.<br>
+        <span>Seu espaço.</span>
+      </h1>
+
+      <p>
+        Informações sobre campeonatos, novidades e produtos
+        da equipe em um só lugar.
+      </p>
+
+      <div class="buttons">
+        <a href="#loja" class="btn primary">Conhecer a loja</a>
+        <a href="#campeonatos" class="btn secondary">Próximos eventos</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="symbol">🥋</div>
+      <small>PRÓXIMO CAMPEONATO</small>
+      <h2>Campeonato Estadual</h2>
+      <p>23–24 de maio • Cascavel/PR</p>
+      <a href="#campeonatos">Ver detalhes →</a>
+    </div>
+
+  </div>
+</section>
+
+<section id="campeonatos" class="section">
+  <div class="container">
+
+    <div class="section-title">
+      <div>
+        <small>CALENDÁRIO</small>
+        <h2>Campeonatos</h2>
+      </div>
+
+      <p>
+        Consulte datas, locais e informações das próximas competições.
+      </p>
+    </div>
+
+    <div class="cards" id="events"></div>
+
+  </div>
+</section>
+
+<section id="noticias" class="section gray">
+  <div class="container">
+
+    <div class="section-title">
+      <div>
+        <small>NOVIDADES</small>
+        <h2>Notícias e avisos</h2>
+      </div>
+    </div>
+
+    <div class="cards" id="news"></div>
+
+  </div>
+</section>
+
+<section id="loja" class="section">
+  <div class="container">
+
+    <div class="section-title">
+      <div>
+        <small>LOJA OFICIAL</small>
+        <h2>Produtos</h2>
+      </div>
+
+      <p>
+        Escolha seu produto e tamanho e adicione ao carrinho.
+      </p>
+    </div>
+
+    <div class="products" id="products"></div>
+
+  </div>
+</section>
+
+<section id="contato" class="section contact">
+  <div class="container contact-box">
+
+    <div>
+      <small>ATENDIMENTO</small>
+      <h2>Fale diretamente comigo</h2>
+      <p>
+        Tem dúvida sobre campeonato, produto ou pedido?
+        Fale comigo pelo chat.
+      </p>
+    </div>
+
+    <button class="btn primary" onclick="openChat()">
+      💬 Abrir chat
+    </button>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <strong>🥋 DOJO<span>+</span></strong>
+    <p>Plataforma de Taekwondo • 2026</p>
+  </div>
+</footer>
+
+
+<!-- CARRINHO -->
+
+<aside id="cart" class="cart-panel">
+
+  <button class="close" onclick="toggleCart()">×</button>
+
+  <h2>Seu carrinho</h2>
+
+  <div id="cartItems"></div>
+
+  <div class="total">
+    <span>Total</span>
+    <strong id="total">R$ 0,00</strong>
+  </div>
+
+  <button class="btn primary full" onclick="checkout()">
+    Finalizar pedido
+  </button>
+
+</aside>
+
+
+<!-- CADASTRO DO CLIENTE -->
+
+<div id="checkout" class="overlay hidden">
+
+  <div class="modal">
+
+    <button class="close" onclick="closeCheckout()">×</button>
+
+    <small>FINALIZAÇÃO DO PEDIDO</small>
+
+    <h2>Seus dados</h2>
+
+    <p>
+      Preencha seus dados para registrar sua compra.
+    </p>
+
+    <form id="orderForm">
+
+      <input
+        name="nome"
+        required
+        placeholder="Nome completo"
+      >
+
+      <input
+        name="telefone"
+        required
+        placeholder="Telefone"
+      >
+
+      <input
+        name="email"
+        type="email"
+        required
+        placeholder="E-mail"
+      >
+
+      <select name="retirada" required>
+
+        <option value="">
+          Escolha o local de retirada
+        </option>
+
+        <option>
+          Academia / Dojo
+        </option>
+
+        <option>
+          Local do campeonato
+        </option>
+
+        <option>
+          Outro local combinado
+        </option>
+
+      </select>
+
+      <textarea
+        name="observacoes"
+        placeholder="Observações (opcional)"
+      ></textarea>
+
+      <div id="summary" class="summary"></div>
+
+      <button class="btn primary full">
+        Registrar pedido
+      </button>
+
+    </form>
+
+    <div id="done" class="done hidden">
+
+      <div>✅</div>
+
+      <h3>Pedido registrado!</h3>
+
+      <p>
+        Seu pedido foi registrado.
+      </p>
+
+      <button
+        class="btn secondary"
+        onclick="closeCheckout()"
+      >
+        Fechar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- CHAT -->
+
+<div id="chat" class="chat hidden">
+
+  <div class="chat-header">
+
+    <div>
+      <strong>💬 Atendimento</strong>
+      <small>Fale diretamente conosco</small>
+    </div>
+
+    <button onclick="closeChat()">×</button>
+
+  </div>
+
+  <div id="messages" class="messages">
+
+    <div class="message bot">
+      Olá! 👋 Como posso ajudar?
+    </div>
+
+  </div>
+
+  <div class="quick-buttons">
+
+    <button onclick="quickMessage('Tenho uma dúvida sobre um produto.')">
+      🛍️ Produto
+    </button>
+
+    <button onclick="quickMessage('Quero saber sobre um campeonato.')">
+      🏆 Campeonato
+    </button>
+
+    <button onclick="quickMessage('Quero saber sobre meu pedido.')">
+      📦 Pedido
+    </button>
+
+  </div>
+
+  <form id="chatForm" class="chat-form">
+
+    <input
+      id="chatInput"
+      required
+      placeholder="Digite sua mensagem..."
+    >
+
+    <button>➤</button>
+
+  </form>
+
+</div>
+
+<button class="chat-button" onclick="openChat()">
+  💬 <span>Fale comigo</span>
+</button>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
