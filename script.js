@@ -1,41 +1,64 @@
+/* =====================================================
+   BLACK STRIVE
+   SCRIPT PRINCIPAL
+===================================================== */
+
+
 let cart = [];
 
 
-/* =========================
+/* =====================================================
    CATEGORIAS
-========================= */
+===================================================== */
 
-function filterProducts(category, button) {
+function filterProducts(category) {
 
-  const products = document.querySelectorAll(".product");
+  const products =
+    document.querySelectorAll(".product");
 
-  const buttons = document.querySelectorAll(".category");
+
+  const buttons =
+    document.querySelectorAll(".category");
 
 
-  buttons.forEach(function(btn) {
+  buttons.forEach(function(button) {
 
-    btn.classList.remove("active");
+    button.classList.remove("active");
 
   });
 
 
-  if (button) {
+  const selectedButton =
+    document.querySelector(
+      `.category[data-category="${category}"]`
+    );
 
-    button.classList.add("active");
+
+  if (selectedButton) {
+
+    selectedButton.classList.add("active");
 
   }
 
 
   products.forEach(function(product) {
 
-    const productCategories =
-      product.dataset.category || "";
+    const categories =
+      product.dataset.category
+        .toLowerCase()
+        .split(" ");
 
 
-    if (
-      category === "todos" ||
-      productCategories.includes(category)
-    ) {
+    if (category === "todos") {
+
+      product.style.display = "";
+
+      return;
+
+    }
+
+
+    if (categories.includes(category)) {
 
       product.style.display = "";
 
@@ -47,14 +70,25 @@ function filterProducts(category, button) {
 
   });
 
+
+  document
+    .getElementById("produtos")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
 }
 
 
-/* =========================
+/* =====================================================
    CARRINHO
-========================= */
+===================================================== */
 
-function addToCart(name, price, size = "") {
+function addToCart(
+  name,
+  price,
+  size = ""
+) {
 
   cart.push({
 
@@ -74,27 +108,33 @@ function addToCart(name, price, size = "") {
 }
 
 
-function addProductFromCard(button, name, price) {
+function addProductFromCard(
+  button,
+  name,
+  price
+) {
 
   const product =
     button.closest(".product");
 
 
-  const sizeSelect =
+  const select =
     product.querySelector(".size");
 
 
   let size = "";
 
 
-  if (sizeSelect) {
+  if (select) {
 
-    size = sizeSelect.value;
+    size = select.value;
 
 
     if (!size) {
 
-      alert("Escolha um tamanho antes de adicionar ao carrinho.");
+      alert(
+        "Escolha um tamanho antes de adicionar ao carrinho."
+      );
 
       return;
 
@@ -103,29 +143,34 @@ function addProductFromCard(button, name, price) {
   }
 
 
-  addToCart(name, price, size);
+  addToCart(
+    name,
+    price,
+    size
+  );
 
 }
 
 
 function updateCart() {
 
-  const cartItems =
+  const items =
     document.getElementById("cartItems");
 
 
-  const cartCount =
+  const count =
     document.getElementById("cartCount");
 
 
-  const cartTotal =
+  const totalElement =
     document.getElementById("cartTotal");
 
 
-  cartCount.textContent = cart.length;
+  count.textContent =
+    cart.length;
 
 
-  cartItems.innerHTML = "";
+  items.innerHTML = "";
 
 
   let total = 0;
@@ -133,7 +178,7 @@ function updateCart() {
 
   if (cart.length === 0) {
 
-    cartItems.innerHTML =
+    items.innerHTML =
       "<p>Seu carrinho está vazio.</p>";
 
   }
@@ -148,24 +193,27 @@ function updateCart() {
       document.createElement("div");
 
 
-    line.className = "cart-line";
+    line.className =
+      "cart-line";
 
 
     line.innerHTML = `
 
       <div>
 
-        <strong>${item.name}</strong>
+        <strong>
+          ${item.name}
+        </strong>
 
         ${
           item.size
-            ? `<br><small>Tamanho: ${item.size}</small>`
+            ? `<br>Tamanho: ${item.size}`
             : ""
         }
 
         <br>
 
-        R$ ${item.price.toFixed(2).replace(".", ",")}
+        R$ ${formatMoney(item.price)}
 
       </div>
 
@@ -180,21 +228,33 @@ function updateCart() {
     `;
 
 
-    cartItems.appendChild(line);
+    items.appendChild(line);
 
   });
 
 
-  cartTotal.textContent =
-    "R$ " +
-    total.toFixed(2).replace(".", ",");
+  totalElement.textContent =
+    "R$ " + formatMoney(total);
+
+}
+
+
+function formatMoney(value) {
+
+  return value
+    .toFixed(2)
+    .replace(".", ",");
 
 }
 
 
 function removeFromCart(index) {
 
-  cart.splice(index, 1);
+  cart.splice(
+    index,
+    1
+  );
+
 
   updateCart();
 
@@ -219,15 +279,17 @@ function closeCart() {
 }
 
 
-/* =========================
+/* =====================================================
    CHECKOUT
-========================= */
+===================================================== */
 
 function checkout() {
 
   if (cart.length === 0) {
 
-    alert("Seu carrinho está vazio.");
+    alert(
+      "Seu carrinho está vazio."
+    );
 
     return;
 
@@ -238,11 +300,12 @@ function checkout() {
 
 
   const summary =
-    document.getElementById("checkoutSummary");
+    document.getElementById(
+      "checkoutSummary"
+    );
 
 
   let html = "";
-
 
   let total = 0;
 
@@ -253,25 +316,39 @@ function checkout() {
 
 
     html += `
+
       <div>
+
         ${item.name}
-        ${item.size ? " — " + item.size : ""}
-        — R$ ${item.price.toFixed(2).replace(".", ",")}
+
+        ${
+          item.size
+            ? ` — ${item.size}`
+            : ""
+        }
+
+        — R$ ${formatMoney(item.price)}
+
       </div>
+
     `;
 
   });
 
 
   html += `
+
     <hr>
+
     <strong>
-      Total: R$ ${total.toFixed(2).replace(".", ",")}
+      Total: R$ ${formatMoney(total)}
     </strong>
+
   `;
 
 
-  summary.innerHTML = html;
+  summary.innerHTML =
+    html;
 
 
   document
@@ -296,12 +373,22 @@ function finishOrder(event) {
 
 
   const name =
-    document.getElementById("customerName").value;
+    document.getElementById(
+      "customerName"
+    ).value.trim();
 
 
-  if (!name) {
+  const phone =
+    document.getElementById(
+      "customerPhone"
+    ).value.trim();
 
-    alert("Digite seu nome.");
+
+  if (!name || !phone) {
+
+    alert(
+      "Digite pelo menos seu nome e telefone."
+    );
 
     return;
 
@@ -318,17 +405,17 @@ function finishOrder(event) {
     .classList.remove("hidden");
 
 
-  document.getElementById("orderMessage").textContent =
-    "Obrigado, " +
-    name +
-    "! Recebemos seu pedido. Em breve entraremos em contato.";
+  document.getElementById(
+    "orderMessage"
+  ).textContent =
+    `Obrigado, ${name}! Recebemos seus dados. Em breve entraremos em contato.`;
 
 }
 
 
-/* =========================
+/* =====================================================
    CHAT
-========================= */
+===================================================== */
 
 function openChat() {
 
@@ -348,48 +435,15 @@ function closeChat() {
 }
 
 
-function sendMessage(event) {
-
-  event.preventDefault();
-
-
-  const input =
-    document.getElementById("chatInput");
-
-
-  const message =
-    input.value.trim();
-
-
-  if (!message) {
-
-    return;
-
-  }
-
-
-  addMessage(message, "user");
-
-
-  input.value = "";
-
-
-  setTimeout(function() {
-
-    addMessage(
-      "Obrigado pela mensagem! 👋 Em breve a BLACK STRIVE poderá responder você.",
-      "bot"
-    );
-
-  }, 500);
-
-}
-
-
-function addMessage(text, type) {
+function addMessage(
+  text,
+  type
+) {
 
   const messages =
-    document.getElementById("messages");
+    document.getElementById(
+      "messages"
+    );
 
 
   const message =
@@ -397,13 +451,16 @@ function addMessage(text, type) {
 
 
   message.className =
-    "message " + type;
+    `message ${type}`;
 
 
-  message.textContent = text;
+  message.textContent =
+    text;
 
 
-  messages.appendChild(message);
+  messages.appendChild(
+    message
+  );
 
 
   messages.scrollTop =
@@ -412,26 +469,72 @@ function addMessage(text, type) {
 }
 
 
-function quickMessage(text) {
+function sendMessage(event) {
 
-  addMessage(text, "user");
+  event.preventDefault();
+
+
+  const input =
+    document.getElementById(
+      "chatInput"
+    );
+
+
+  const text =
+    input.value.trim();
+
+
+  if (!text) {
+
+    return;
+
+  }
+
+
+  addMessage(
+    text,
+    "user"
+  );
+
+
+  input.value = "";
 
 
   setTimeout(function() {
 
     addMessage(
-      "Claro! Vamos ajudar você com isso. 👊",
+      "Mensagem recebida! 👊 Para falar diretamente com a BLACK STRIVE, use nosso WhatsApp.",
       "bot"
     );
 
-  }, 400);
+  }, 500);
 
 }
 
 
-/* =========================
-   INICIAR
-========================= */
+function quickMessage(text) {
+
+  addMessage(
+    text,
+    "user"
+  );
+
+
+  setTimeout(function() {
+
+    addMessage(
+      "Claro! 👊 Vamos ajudar você. Para atendimento direto, fale conosco pelo WhatsApp.",
+      "bot"
+    );
+
+  }, 500);
+
+}
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
