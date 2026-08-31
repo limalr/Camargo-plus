@@ -1,95 +1,267 @@
 let cart = [];
 
-const cartPanel = document.getElementById("cartPanel");
-const cartItems = document.getElementById("cartItems");
-const cartCount = document.getElementById("cartCount");
-const cartTotal = document.getElementById("cartTotal");
 
-function openCart() {
-  cartPanel.classList.add("open");
-}
+/* =========================
+   CATEGORIAS
+========================= */
 
-function closeCart() {
-  cartPanel.classList.remove("open");
-}
+function filterProducts(category, button) {
 
-function addToCart(name, price) {
-  cart.push({
-    name: name,
-    price: Number(price)
+  const products = document.querySelectorAll(".product");
+
+  const buttons = document.querySelectorAll(".category");
+
+
+  buttons.forEach(function(btn) {
+
+    btn.classList.remove("active");
+
   });
 
-  updateCart();
-  openCart();
-}
 
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCart();
-}
+  if (button) {
 
-function updateCart() {
-  cartItems.innerHTML = "";
+    button.classList.add("active");
 
-  if (cart.length === 0) {
-    cartItems.innerHTML = `
-      <p>Seu carrinho está vazio.</p>
-    `;
   }
 
-  let total = 0;
 
-  cart.forEach((item, index) => {
-    total += item.price;
+  products.forEach(function(product) {
 
-    const line = document.createElement("div");
-    line.className = "cart-line";
+    const productCategories =
+      product.dataset.category || "";
 
-    line.innerHTML = `
-      <div>
-        <strong>${item.name}</strong>
-        <br>
-        R$ ${item.price.toFixed(2).replace(".", ",")}
-      </div>
 
-      <button class="remove" onclick="removeFromCart(${index})">
-        Remover
-      </button>
-    `;
+    if (
+      category === "todos" ||
+      productCategories.includes(category)
+    ) {
 
-    cartItems.appendChild(line);
+      product.style.display = "";
+
+    } else {
+
+      product.style.display = "none";
+
+    }
+
   });
+
+}
+
+
+/* =========================
+   CARRINHO
+========================= */
+
+function addToCart(name, price, size = "") {
+
+  cart.push({
+
+    name: name,
+
+    price: price,
+
+    size: size
+
+  });
+
+
+  updateCart();
+
+  openCart();
+
+}
+
+
+function addProductFromCard(button, name, price) {
+
+  const product =
+    button.closest(".product");
+
+
+  const sizeSelect =
+    product.querySelector(".size");
+
+
+  let size = "";
+
+
+  if (sizeSelect) {
+
+    size = sizeSelect.value;
+
+
+    if (!size) {
+
+      alert("Escolha um tamanho antes de adicionar ao carrinho.");
+
+      return;
+
+    }
+
+  }
+
+
+  addToCart(name, price, size);
+
+}
+
+
+function updateCart() {
+
+  const cartItems =
+    document.getElementById("cartItems");
+
+
+  const cartCount =
+    document.getElementById("cartCount");
+
+
+  const cartTotal =
+    document.getElementById("cartTotal");
+
 
   cartCount.textContent = cart.length;
 
-  cartTotal.textContent =
-    "R$ " + total.toFixed(2).replace(".", ",");
-}
 
-function checkout() {
-  if (cart.length === 0) {
-    alert("Seu carrinho está vazio.");
-    return;
-  }
+  cartItems.innerHTML = "";
 
-  document.getElementById("checkoutModal").classList.remove("hidden");
 
-  const summary = document.getElementById("checkoutSummary");
-
-  let html = "";
   let total = 0;
 
-  cart.forEach(item => {
+
+  if (cart.length === 0) {
+
+    cartItems.innerHTML =
+      "<p>Seu carrinho está vazio.</p>";
+
+  }
+
+
+  cart.forEach(function(item, index) {
+
     total += item.price;
+
+
+    const line =
+      document.createElement("div");
+
+
+    line.className = "cart-line";
+
+
+    line.innerHTML = `
+
+      <div>
+
+        <strong>${item.name}</strong>
+
+        ${
+          item.size
+            ? `<br><small>Tamanho: ${item.size}</small>`
+            : ""
+        }
+
+        <br>
+
+        R$ ${item.price.toFixed(2).replace(".", ",")}
+
+      </div>
+
+
+      <button
+        class="remove"
+        onclick="removeFromCart(${index})"
+      >
+        Remover
+      </button>
+
+    `;
+
+
+    cartItems.appendChild(line);
+
+  });
+
+
+  cartTotal.textContent =
+    "R$ " +
+    total.toFixed(2).replace(".", ",");
+
+}
+
+
+function removeFromCart(index) {
+
+  cart.splice(index, 1);
+
+  updateCart();
+
+}
+
+
+function openCart() {
+
+  document
+    .getElementById("cartPanel")
+    .classList.add("open");
+
+}
+
+
+function closeCart() {
+
+  document
+    .getElementById("cartPanel")
+    .classList.remove("open");
+
+}
+
+
+/* =========================
+   CHECKOUT
+========================= */
+
+function checkout() {
+
+  if (cart.length === 0) {
+
+    alert("Seu carrinho está vazio.");
+
+    return;
+
+  }
+
+
+  closeCart();
+
+
+  const summary =
+    document.getElementById("checkoutSummary");
+
+
+  let html = "";
+
+
+  let total = 0;
+
+
+  cart.forEach(function(item) {
+
+    total += item.price;
+
 
     html += `
       <div>
-        ${item.name} — R$ ${item.price
-          .toFixed(2)
-          .replace(".", ",")}
+        ${item.name}
+        ${item.size ? " — " + item.size : ""}
+        — R$ ${item.price.toFixed(2).replace(".", ",")}
       </div>
     `;
+
   });
+
 
   html += `
     <hr>
@@ -98,147 +270,174 @@ function checkout() {
     </strong>
   `;
 
+
   summary.innerHTML = html;
+
+
+  document
+    .getElementById("checkoutModal")
+    .classList.remove("hidden");
+
 }
+
 
 function closeCheckout() {
-  document.getElementById("checkoutModal").classList.add("hidden");
+
+  document
+    .getElementById("checkoutModal")
+    .classList.add("hidden");
+
 }
+
 
 function finishOrder(event) {
+
   event.preventDefault();
 
-  const name = document.getElementById("customerName").value;
 
-  document.getElementById("checkoutForm").classList.add("hidden");
+  const name =
+    document.getElementById("customerName").value;
 
-  document.getElementById("orderDone").classList.remove("hidden");
+
+  if (!name) {
+
+    alert("Digite seu nome.");
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("checkoutForm")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("orderDone")
+    .classList.remove("hidden");
+
 
   document.getElementById("orderMessage").textContent =
-    `Obrigado, ${name}! Seu pedido foi recebido com sucesso.`;
+    "Obrigado, " +
+    name +
+    "! Recebemos seu pedido. Em breve entraremos em contato.";
 
-  cart = [];
-  updateCart();
 }
 
-function openRegister() {
-  document.getElementById("registerModal").classList.remove("hidden");
-}
 
-function closeRegister() {
-  document.getElementById("registerModal").classList.add("hidden");
-}
-
-function registerUser(event) {
-  event.preventDefault();
-
-  const name = document.getElementById("registerName").value;
-
-  alert(
-    `Cadastro realizado com sucesso, ${name}!`
-  );
-
-  closeRegister();
-}
+/* =========================
+   CHAT
+========================= */
 
 function openChat() {
-  document.getElementById("chat").classList.remove("hidden");
+
+  document
+    .getElementById("chat")
+    .classList.remove("hidden");
+
 }
+
 
 function closeChat() {
-  document.getElementById("chat").classList.add("hidden");
+
+  document
+    .getElementById("chat")
+    .classList.add("hidden");
+
 }
 
+
 function sendMessage(event) {
+
   event.preventDefault();
 
-  const input = document.getElementById("chatInput");
-  const message = input.value.trim();
 
-  if (!message) return;
+  const input =
+    document.getElementById("chatInput");
+
+
+  const message =
+    input.value.trim();
+
+
+  if (!message) {
+
+    return;
+
+  }
+
 
   addMessage(message, "user");
 
+
   input.value = "";
 
-  setTimeout(() => {
-    botReply(message);
+
+  setTimeout(function() {
+
+    addMessage(
+      "Obrigado pela mensagem! 👋 Em breve a BLACK STRIVE poderá responder você.",
+      "bot"
+    );
+
   }, 500);
+
 }
 
+
 function addMessage(text, type) {
-  const messages = document.getElementById("messages");
 
-  const message = document.createElement("div");
+  const messages =
+    document.getElementById("messages");
 
-  message.className = `message ${type}`;
+
+  const message =
+    document.createElement("div");
+
+
+  message.className =
+    "message " + type;
+
 
   message.textContent = text;
 
+
   messages.appendChild(message);
 
-  messages.scrollTop = messages.scrollHeight;
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
 }
 
-function botReply(message) {
-  const text = message.toLowerCase();
-
-  let response =
-    "Olá! Posso ajudar com produtos, pedidos, cadastro e informações sobre a loja.";
-
-  if (
-    text.includes("produto") ||
-    text.includes("produtos")
-  ) {
-    response =
-      "Você pode conferir nossos produtos na seção Loja. É só escolher o produto e adicionar ao carrinho.";
-  }
-
-  else if (
-    text.includes("preço") ||
-    text.includes("preco") ||
-    text.includes("valor")
-  ) {
-    response =
-      "Os preços estão disponíveis diretamente nos cards dos produtos.";
-  }
-
-  else if (
-    text.includes("pedido") ||
-    text.includes("comprar")
-  ) {
-    response =
-      "Para fazer um pedido, adicione os produtos ao carrinho e clique em Finalizar pedido.";
-  }
-
-  else if (
-    text.includes("cadastro") ||
-    text.includes("cadastrar")
-  ) {
-    response =
-      "Você pode fazer seu cadastro clicando no botão de cadastro no menu.";
-  }
-
-  else if (
-    text.includes("olá") ||
-    text.includes("ola") ||
-    text.includes("oi")
-  ) {
-    response =
-      "Olá! 👋 Seja bem-vindo! Como posso ajudar?";
-  }
-
-  addMessage(response, "bot");
-}
 
 function quickMessage(text) {
+
   addMessage(text, "user");
 
-  setTimeout(() => {
-    botReply(text);
+
+  setTimeout(function() {
+
+    addMessage(
+      "Claro! Vamos ajudar você com isso. 👊",
+      "bot"
+    );
+
   }, 400);
+
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  updateCart();
-});
+
+/* =========================
+   INICIAR
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    updateCart();
+
+  }
+);
