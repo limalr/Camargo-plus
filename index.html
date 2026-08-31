@@ -1,321 +1,928 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLACK STRIVE | Esporte, Campeonatos e Loja</title>
+
+  <title>BLACK STRIVE</title>
+
+  <meta
+    name="description"
+    content="BLACK STRIVE — moda esportiva, performance e estilo."
+  >
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-  <div class="container nav">
-    <a href="#inicio" class="logo">BLACK <span>STRIVE</span></a>
+  <!-- MENU -->
 
-    <nav>
-      <a href="#campeonatos">Campeonatos</a>
-      <a href="#noticias">Notícias</a>
-      <a href="#loja">Loja</a>
-      <a href="#contato">Contato</a>
-    </nav>
+  <header>
+    <div class="container nav">
 
-    <button class="cart" onclick="toggleCart()">
-      🛒 <b id="count">0</b>
+      <a href="#inicio" class="logo">
+        BLACK <span>STRIVE</span>
+      </a>
+
+      <nav>
+
+        <a href="#inicio">Início</a>
+
+        <a href="#produtos">Loja</a>
+
+        <a href="#novidades">Novidades</a>
+
+        <a href="#contato">Contato</a>
+
+      </nav>
+
+      <button class="cart" onclick="openCart()">
+        🛒 Carrinho
+        <b id="cartCount">0</b>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- INÍCIO -->
+
+  <main>
+
+    <section class="hero" id="inicio">
+
+      <div class="container hero-content">
+
+        <div>
+
+          <small>BLACK STRIVE</small>
+
+          <h1>
+            SUPERE SEUS
+            <span>LIMITES.</span>
+          </h1>
+
+          <p>
+            Roupas esportivas para quem busca performance,
+            conforto e estilo em todos os movimentos.
+          </p>
+
+          <div class="buttons">
+
+            <a href="#produtos" class="btn primary">
+              Comprar agora
+            </a>
+
+            <a href="#novidades" class="btn secondary">
+              Ver novidades
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+          <div class="symbol">⚡</div>
+
+          <h2>
+            BLACK STRIVE
+          </h2>
+
+          <p>
+            Movimento. Performance. Atitude.
+          </p>
+
+          <a href="#produtos">
+            Conheça a coleção →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CATEGORIAS -->
+
+    <section class="categories">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <div>
+
+            <small>CATEGORIAS</small>
+
+            <h2>
+              Encontre seu estilo.
+            </h2>
+
+          </div>
+
+          <p>
+            Explore nossa linha de roupas esportivas.
+          </p>
+
+        </div>
+
+
+        <div class="category-buttons">
+
+          <button
+            class="category active"
+            onclick="filterProducts('todos', this)"
+          >
+            GERAL
+          </button>
+
+          <button
+            class="category"
+            onclick="filterProducts('novidades', this)"
+          >
+            NOVIDADES
+          </button>
+
+          <button
+            class="category"
+            onclick="filterProducts('camisetas', this)"
+          >
+            CAMISETAS
+          </button>
+
+          <button
+            class="category"
+            onclick="filterProducts('agasalhos', this)"
+          >
+            AGASALHOS
+          </button>
+
+          <button
+            class="category"
+            onclick="filterProducts('calcas-shorts', this)"
+          >
+            CALÇAS E SHORTS
+          </button>
+
+          <button
+            class="category"
+            onclick="filterProducts('outros', this)"
+          >
+            OUTROS
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRODUTOS -->
+
+    <section class="section products-section" id="produtos">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <div>
+
+            <small>BLACK STRIVE</small>
+
+            <h2>
+              Nossa coleção
+            </h2>
+
+          </div>
+
+          <p>
+            Produtos esportivos pensados para acompanhar
+            sua rotina e seus desafios.
+          </p>
+
+        </div>
+
+
+        <div class="products" id="productsGrid">
+
+
+          <!-- PRODUTO 1 -->
+
+          <article
+            class="product"
+            data-category="camisetas novidades"
+          >
+
+            <div class="product-image">
+              👕
+            </div>
+
+            <span class="product-tag">
+              NOVIDADE
+            </span>
+
+            <h3>
+              Camiseta Black Strive
+            </h3>
+
+            <p>
+              Camiseta esportiva Black Strive.
+            </p>
+
+            <div class="price">
+              R$ 89,90
+            </div>
+
+            <select class="size">
+
+              <option value="">
+                Escolha o tamanho
+              </option>
+
+              <option>
+                P
+              </option>
+
+              <option>
+                M
+              </option>
+
+              <option>
+                G
+              </option>
+
+              <option>
+                GG
+              </option>
+
+            </select>
+
+            <button
+              class="btn primary"
+              onclick="addProductFromCard(this, 'Camiseta Black Strive', 89.90)"
+            >
+              Adicionar ao carrinho
+            </button>
+
+          </article>
+
+
+          <!-- PRODUTO 2 -->
+
+          <article
+            class="product"
+            data-category="camisetas"
+          >
+
+            <div class="product-image">
+              👕
+            </div>
+
+            <h3>
+              Camiseta Performance
+            </h3>
+
+            <p>
+              Modelo esportivo para treinos e atividades.
+            </p>
+
+            <div class="price">
+              R$ 99,90
+            </div>
+
+            <select class="size">
+
+              <option value="">
+                Escolha o tamanho
+              </option>
+
+              <option>
+                P
+              </option>
+
+              <option>
+                M
+              </option>
+
+              <option>
+                G
+              </option>
+
+              <option>
+                GG
+              </option>
+
+            </select>
+
+            <button
+              class="btn primary"
+              onclick="addProductFromCard(this, 'Camiseta Performance', 99.90)"
+            >
+              Adicionar ao carrinho
+            </button>
+
+          </article>
+
+
+          <!-- PRODUTO 3 -->
+
+          <article
+            class="product"
+            data-category="agasalhos novidades"
+          >
+
+            <div class="product-image">
+              🧥
+            </div>
+
+            <span class="product-tag">
+              NOVIDADE
+            </span>
+
+            <h3>
+              Agasalho Black Strive
+            </h3>
+
+            <p>
+              Agasalho esportivo com visual moderno.
+            </p>
+
+            <div class="price">
+              R$ 179,90
+            </div>
+
+            <select class="size">
+
+              <option value="">
+                Escolha o tamanho
+              </option>
+
+              <option>
+                P
+              </option>
+
+              <option>
+                M
+              </option>
+
+              <option>
+                G
+              </option>
+
+              <option>
+                GG
+              </option>
+
+            </select>
+
+            <button
+              class="btn primary"
+              onclick="addProductFromCard(this, 'Agasalho Black Strive', 179.90)"
+            >
+              Adicionar ao carrinho
+            </button>
+
+          </article>
+
+
+          <!-- PRODUTO 4 -->
+
+          <article
+            class="product"
+            data-category="calcas-shorts"
+          >
+
+            <div class="product-image">
+              👖
+            </div>
+
+            <h3>
+              Calça Esportiva
+            </h3>
+
+            <p>
+              Calça esportiva para treinos e atividades.
+            </p>
+
+            <div class="price">
+              R$ 149,90
+            </div>
+
+            <select class="size">
+
+              <option value="">
+                Escolha o tamanho
+              </option>
+
+              <option>
+                P
+              </option>
+
+              <option>
+                M
+              </option>
+
+              <option>
+                G
+              </option>
+
+              <option>
+                GG
+              </option>
+
+            </select>
+
+            <button
+              class="btn primary"
+              onclick="addProductFromCard(this, 'Calça Esportiva', 149.90)"
+            >
+              Adicionar ao carrinho
+            </button>
+
+          </article>
+
+
+          <!-- PRODUTO 5 -->
+
+          <article
+            class="product"
+            data-category="calcas-shorts"
+          >
+
+            <div class="product-image">
+              🩳
+            </div>
+
+            <h3>
+              Short Esportivo
+            </h3>
+
+            <p>
+              Short esportivo confortável e leve.
+            </p>
+
+            <div class="price">
+              R$ 79,90
+            </div>
+
+            <select class="size">
+
+              <option value="">
+                Escolha o tamanho
+              </option>
+
+              <option>
+                P
+              </option>
+
+              <option>
+                M
+              </option>
+
+              <option>
+                G
+              </option>
+
+              <option>
+                GG
+              </option>
+
+            </select>
+
+            <button
+              class="btn primary"
+              onclick="addProductFromCard(this, 'Short Esportivo', 79.90)"
+            >
+              Adicionar ao carrinho
+            </button>
+
+          </article>
+
+
+          <!-- PRODUTO 6 -->
+
+          <article
+            class="product"
+            data-category="outros"
+          >
+
+            <div class="product-image">
+              🧢
+            </div>
+
+            <h3>
+              Boné Black Strive
+            </h3>
+
+            <p>
+              Boné esportivo com identidade Black Strive.
+            </p>
+
+            <div class="price">
+              R$ 69,90
+            </div>
+
+            <button
+              class="btn primary"
+              onclick="addToCart('Boné Black Strive', 69.90)"
+            >
+              Adicionar ao carrinho
+            </button>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- NOVIDADES -->
+
+    <section class="section gray" id="novidades">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <div>
+
+            <small>NOVIDADES</small>
+
+            <h2>
+              Chegando agora.
+            </h2>
+
+          </div>
+
+          <p>
+            Fique de olho nos próximos lançamentos
+            da BLACK STRIVE.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONTATO -->
+
+    <section class="section contact" id="contato">
+
+      <div class="container">
+
+        <div class="contact-box">
+
+          <div>
+
+            <small>FALE CONOSCO</small>
+
+            <h2>
+              Precisa de ajuda?
+            </h2>
+
+            <p>
+              Entre em contato com a BLACK STRIVE.
+            </p>
+
+          </div>
+
+          <button
+            class="btn primary"
+            onclick="openChat()"
+          >
+            Falar com a loja
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- RODAPÉ -->
+
+  <footer>
+
+    <div class="container">
+
+      <strong>
+        BLACK <span>STRIVE</span>
+      </strong>
+
+      <p>
+        © 2026 BLACK STRIVE. Todos os direitos reservados.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <!-- CARRINHO -->
+
+  <aside
+    class="cart-panel"
+    id="cartPanel"
+  >
+
+    <button
+      class="close"
+      onclick="closeCart()"
+    >
+      ×
     </button>
-  </div>
-</header>
 
-<section id="inicio" class="hero">
-  <div class="container hero-content">
+    <h2>
+      Seu carrinho
+    </h2>
 
-    <div>
-      <small> • EVENTOS • LOJA</small>
-
-      <h1>
-        Seu esporte.<br>
-        <span>Seu espaço.</span>
-      </h1>
-
-      <p>
-        Informações sobre campeonatos, novidades e produtos
-        da equipe em um só lugar.
-      </p>
-
-      <div class="buttons">
-        <a href="#loja" class="btn primary">Conhecer a loja</a>
-        <a href="#campeonatos" class="btn secondary">Próximos eventos</a>
-      </div>
+    <div id="cartItems">
     </div>
 
-    <div class="hero-card">
-      <div class="symbol">🥋</div>
-      <small>PRÓXIMO CAMPEONATO</small>
-      <h2>Copa Paraná </h2>
-      <p>11 a 13 de setembro • Coronel Vivida/PR</p>
-      <a href="#campeonatos">Ver detalhes →</a>
+    <div class="total">
+
+      <strong>
+        Total
+      </strong>
+
+      <strong id="cartTotal">
+        R$ 0,00
+      </strong>
+
     </div>
 
-  </div>
-</section>
-
-<section id="campeonatos" class="section">
-  <div class="container">
-
-    <div class="section-title">
-      <div>
-        <small>CALENDÁRIO</small>
-        <h2>Campeonatos</h2>
-      </div>
-
-      <p>
-        Consulte datas, locais e informações das próximas competições.
-      </p>
-    </div>
-
-    <div class="cards" id="events"></div>
-
-  </div>
-</section>
-
-<section id="noticias" class="section gray">
-  <div class="container">
-
-    <div class="section-title">
-      <div>
-        <small>NOVIDADES</small>
-        <h2>Notícias e avisos</h2>
-      </div>
-    </div>
-
-    <div class="cards" id="news"></div>
-
-  </div>
-</section>
-
-<section id="loja" class="section">
-  <div class="container">
-
-    <div class="section-title">
-      <div>
-        <small>LOJA OFICIAL</small>
-        <h2>Produtos</h2>
-      </div>
-
-      <p>
-        Escolha seu produto e tamanho e adicione ao carrinho.
-      </p>
-    </div>
-
-    <div class="products" id="products"></div>
-
-  </div>
-</section>
-
-<section id="contato" class="section contact">
-  <div class="container contact-box">
-
-    <div>
-      <small>ATENDIMENTO</small>
-      <h2>Fale diretamente comigo</h2>
-      <p>
-        Tem dúvida sobre campeonato, produto ou pedido?
-        Fale comigo pelo chat.
-      </p>
-    </div>
-
-    <button class="btn primary" onclick="openChat()">
-      💬 Abrir chat
+    <button
+      class="btn primary full"
+      onclick="checkout()"
+    >
+      Finalizar pedido
     </button>
 
+  </aside>
+
+
+  <!-- MODAL CHECKOUT -->
+
+  <div
+    class="overlay hidden"
+    id="checkoutModal"
+  >
+
+    <div class="modal">
+
+      <button
+        class="close"
+        onclick="closeCheckout()"
+      >
+        ×
+      </button>
+
+      <div id="checkoutForm">
+
+        <h2>
+          Finalizar pedido
+        </h2>
+
+        <p>
+          Preencha seus dados para continuar.
+        </p>
+
+        <div
+          class="summary"
+          id="checkoutSummary"
+        >
+        </div>
+
+        <input
+          type="text"
+          id="customerName"
+          placeholder="Nome completo"
+          required
+        >
+
+        <input
+          type="email"
+          id="customerEmail"
+          placeholder="E-mail"
+          required
+        >
+
+        <input
+          type="tel"
+          id="customerPhone"
+          placeholder="Telefone / WhatsApp"
+          required
+        >
+
+        <textarea
+          id="customerAddress"
+          placeholder="Endereço para entrega"
+          required
+        ></textarea>
+
+        <button
+          class="btn primary full"
+          onclick="finishOrder(event)"
+        >
+          Enviar pedido
+        </button>
+
+      </div>
+
+
+      <div
+        class="done hidden"
+        id="orderDone"
+      >
+
+        <h2>
+          Pedido recebido! 🎉
+        </h2>
+
+        <p id="orderMessage">
+        </p>
+
+        <button
+          class="btn primary"
+          onclick="closeCheckout()"
+        >
+          Fechar
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
-</section>
 
-<footer>
-  <div class="container">
-    <strong>BLACK <span>STRIVE</span></strong>
-    <p>Plataforma Camarguinho</p>
+
+  <!-- MODAL CADASTRO -->
+
+  <div
+    class="overlay hidden"
+    id="registerModal"
+  >
+
+    <div class="modal">
+
+      <button
+        class="close"
+        onclick="closeRegister()"
+      >
+        ×
+      </button>
+
+      <h2>
+        Criar cadastro
+      </h2>
+
+      <p>
+        Cadastre-se na BLACK STRIVE.
+      </p>
+
+      <form onsubmit="registerUser(event)">
+
+        <input
+          type="text"
+          id="registerName"
+          placeholder="Seu nome"
+          required
+        >
+
+        <input
+          type="email"
+          placeholder="Seu e-mail"
+          required
+        >
+
+        <input
+          type="password"
+          placeholder="Crie uma senha"
+          required
+        >
+
+        <button
+          class="btn primary full"
+          type="submit"
+        >
+          Criar cadastro
+        </button>
+
+      </form>
+
+    </div>
+
   </div>
-</footer>
 
 
-<!-- CARRINHO -->
+  <!-- CHAT -->
 
-<aside id="cart" class="cart-panel">
-
-  <button class="close" onclick="toggleCart()">×</button>
-
-  <h2>Seu carrinho</h2>
-
-  <div id="cartItems"></div>
-
-  <div class="total">
-    <span>Total</span>
-    <strong id="total">R$ 0,00</strong>
-  </div>
-
-  <button class="btn primary full" onclick="checkout()">
-    Finalizar pedido
+  <button
+    class="chat-button"
+    onclick="openChat()"
+  >
+    💬 <span>Falar conosco</span>
   </button>
 
-</aside>
+
+  <div
+    class="chat hidden"
+    id="chat"
+  >
+
+    <div class="chat-header">
+
+      <div>
+
+        <strong>
+          BLACK STRIVE
+        </strong>
+
+        <small>
+          Atendimento online
+        </small>
+
+      </div>
+
+      <button onclick="closeChat()">
+        ×
+      </button>
+
+    </div>
 
 
-<!-- CADASTRO DO CLIENTE -->
+    <div
+      class="messages"
+      id="messages"
+    >
 
-<div id="checkout" class="overlay hidden">
+      <div class="message bot">
+        Olá! 👋 Como podemos ajudar?
+      </div>
 
-  <div class="modal">
+    </div>
 
-    <button class="close" onclick="closeCheckout()">×</button>
 
-    <small>FINALIZAÇÃO DO PEDIDO</small>
+    <div class="quick-buttons">
 
-    <h2>Seus dados</h2>
+      <button
+        onclick="quickMessage('Quero conhecer os produtos')"
+      >
+        Produtos
+      </button>
 
-    <p>
-      Preencha seus dados para registrar sua compra.
-    </p>
+      <button
+        onclick="quickMessage('Quero saber os preços')"
+      >
+        Preços
+      </button>
 
-    <form id="orderForm">
+      <button
+        onclick="quickMessage('Quero fazer um pedido')"
+      >
+        Pedido
+      </button>
+
+    </div>
+
+
+    <form
+      class="chat-form"
+      onsubmit="sendMessage(event)"
+    >
 
       <input
-        name="nome"
-        required
-        placeholder="Nome completo"
+        id="chatInput"
+        type="text"
+        placeholder="Digite sua mensagem..."
+        autocomplete="off"
       >
 
-      <input
-        name="telefone"
-        required
-        placeholder="Telefone"
-      >
-
-      <input
-        name="email"
-        type="email"
-        required
-        placeholder="E-mail"
-      >
-
-      <select name="retirada" required>
-
-        <option value="">
-          Escolha o local de retirada
-        </option>
-
-        <option>
-          Academia 
-        </option>
-
-        <option>
-          Local do campeonato
-        </option>
-
-        <option>
-          Outro local combinado
-        </option>
-
-      </select>
-
-      <textarea
-        name="observacoes"
-        placeholder="Observações (opcional)"
-      ></textarea>
-
-      <div id="summary" class="summary"></div>
-
-      <button class="btn primary full">
-        Registrar pedido
+      <button type="submit">
+        ➤
       </button>
 
     </form>
 
-    <div id="done" class="done hidden">
-
-      <div>✅</div>
-
-      <h3>Pedido registrado!</h3>
-
-      <p>
-        Seu pedido foi registrado.
-      </p>
-
-      <button
-        class="btn secondary"
-        onclick="closeCheckout()"
-      >
-        Fechar
-      </button>
-
-    </div>
-
   </div>
 
-</div>
 
-
-<!-- CHAT -->
-
-<div id="chat" class="chat hidden">
-
-  <div class="chat-header">
-
-    <div>
-      <strong>💬 Atendimento</strong>
-      <small>Fale diretamente conosco</small>
-    </div>
-
-    <button onclick="closeChat()">×</button>
-
-  </div>
-
-  <div id="messages" class="messages">
-
-    <div class="message bot">
-      Olá! 👋 Como posso ajudar?
-    </div>
-
-  </div>
-
-  <div class="quick-buttons">
-
-    <button onclick="quickMessage('Tenho uma dúvida sobre um produto.')">
-      🛍️ Produto
-    </button>
-
-    <button onclick="quickMessage('Quero saber sobre um campeonato.')">
-      🏆 Campeonato
-    </button>
-
-    <button onclick="quickMessage('Quero saber sobre meu pedido.')">
-      📦 Pedido
-    </button>
-
-  </div>
-
-  <form id="chatForm" class="chat-form">
-
-    <input
-      id="chatInput"
-      required
-      placeholder="Digite sua mensagem..."
-    >
-
-    <button>➤</button>
-
-  </form>
-
-</div>
-
-<button class="chat-button" onclick="openChat()">
-  💬 <span>Fale comigo</span>
-</button>
-
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 
 </body>
+
 </html>
-```
