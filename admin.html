@@ -2,15 +2,12 @@
 <html lang="pt-BR">
 
 <head>
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>BLACK STRIVE — Administração</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -19,78 +16,121 @@
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: #070709;
-      color: white;
+      color: #fff;
     }
 
-    .login {
+    .hidden {
+      display: none !important;
+    }
+
+    .login-screen {
       min-height: 100vh;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
+      background:
+        radial-gradient(circle at 70% 20%, #6f32b844, transparent 35%),
+        #070709;
     }
 
     .login-box {
-      width: min(420px, 100%);
+      width: min(430px, 100%);
       background: #111114;
-      border: 1px solid #302b35;
-      border-radius: 20px;
+      border: 1px solid #332a3d;
+      border-radius: 22px;
       padding: 35px;
-      box-shadow: 0 20px 70px #0008;
+      box-shadow: 0 25px 80px #000;
     }
 
     .logo {
       font-size: 25px;
       font-weight: 900;
-      margin-bottom: 10px;
+      margin-bottom: 25px;
     }
 
     .logo span {
-      color: #8b45e8;
+      color: #914ce8;
     }
 
     h1 {
-      margin: 8px 0;
+      margin: 0 0 10px;
+      font-size: 28px;
     }
 
-    p {
-      color: #88848d;
+    .subtitle {
+      color: #92909a;
       line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #c8c4cf;
     }
 
     input {
       width: 100%;
-      padding: 13px;
-      margin: 7px 0;
-      border: 1px solid #37323d;
-      border-radius: 9px;
-      background: #0b0b0e;
-      color: white;
+      padding: 14px;
+      border: 1px solid #39323f;
+      border-radius: 10px;
+      background: #09090b;
+      color: #fff;
       font-size: 15px;
+      outline: none;
     }
 
-    button {
+    input:focus {
+      border-color: #914ce8;
+    }
+
+    .login-button {
       width: 100%;
-      padding: 13px;
-      margin-top: 10px;
+      margin-top: 22px;
+      padding: 14px;
       border: 0;
-      border-radius: 9px;
-      background: #8b45e8;
+      border-radius: 10px;
+      background: #7c3bd1;
       color: white;
+      font-size: 15px;
       font-weight: 900;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #7135c4;
+    .login-button:hover {
+      background: #914ce8;
+    }
+
+    .login-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
     .error {
-      color: #ff6b6b;
-      margin-top: 12px;
+      background: #3a1518;
+      border: 1px solid #733238;
+      color: #ff9ca3;
     }
 
-    .admin {
-      display: none;
+    .success {
+      background: #12301e;
+      border: 1px solid #285d39;
+      color: #9be4b0;
+    }
+
+    .admin-screen {
       min-height: 100vh;
     }
 
@@ -100,16 +140,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #0b0b0e;
-      border-bottom: 1px solid #29252e;
+      background: #0c0c0f;
+      border-bottom: 1px solid #29242f;
     }
 
     .logout {
       width: auto;
-      padding: 9px 15px;
       margin: 0;
-      background: #19171d;
-      border: 1px solid #39333f;
+      padding: 9px 16px;
+      border: 1px solid #3b3542;
+      border-radius: 9px;
+      background: #17151a;
+      color: white;
+      cursor: pointer;
     }
 
     .content {
@@ -118,497 +161,708 @@
       padding: 40px 0;
     }
 
-    .welcome {
-      margin-bottom: 30px;
+    .welcome h1 {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #8d8994;
     }
 
     .cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 18px;
+      margin-top: 30px;
     }
 
     .card {
       background: #111114;
-      border: 1px solid #29252e;
-      border-radius: 16px;
-      padding: 22px;
+      border: 1px solid #29242f;
+      border-radius: 17px;
+      padding: 23px;
     }
 
-    .card strong {
+    .card-title {
+      color: #aaa5b0;
+    }
+
+    .card-number {
       display: block;
-      font-size: 30px;
-      color: #a866ee;
-      margin-top: 10px;
+      margin-top: 12px;
+      color: #a35cf0;
+      font-size: 32px;
+      font-weight: 900;
     }
 
-    .section {
-      margin-top: 35px;
-      background: #111114;
-      border: 1px solid #29252e;
-      border-radius: 18px;
+    .panel {
+      margin-top: 30px;
       padding: 25px;
+      background: #111114;
+      border: 1px solid #29242f;
+      border-radius: 17px;
     }
 
-    .section h2 {
+    .panel h2 {
       margin-top: 0;
     }
 
     .status {
-      padding: 12px;
-      border-radius: 8px;
+      padding: 13px;
+      border-radius: 9px;
       background: #19171d;
-      color: #aaa;
+      color: #aaa5b0;
     }
 
     @media (max-width: 800px) {
-
       .cards {
         grid-template-columns: 1fr 1fr;
       }
-
     }
 
+    @media (max-width: 500px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .login-box {
+        padding: 25px;
+      }
+    }
   </style>
-
 </head>
-
 
 <body>
 
+  <!-- ==============================
+       LOGIN
+  =============================== -->
 
-<!-- =========================
-     LOGIN
-========================= -->
+  <section id="loginScreen" class="login-screen">
 
-<div
-  class="login"
-  id="loginScreen"
->
+    <div class="login-box">
 
-  <div class="login-box">
-
-    <div class="logo">
-      BLACK <span>STRIVE</span>
-    </div>
-
-    <h1>
-      Painel Administrativo
-    </h1>
-
-    <p>
-      Entre com seu usuário administrador
-      para acessar a loja.
-    </p>
-
-
-    <form
-      id="loginForm"
-    >
-
-      <input
-        type="email"
-        id="email"
-        placeholder="Seu e-mail"
-        required
-      >
-
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Sua senha"
-        required
-      >
-
-
-      <button type="submit">
-        ENTRAR
-      </button>
-
-    </form>
-
-
-    <div
-      class="error"
-      id="loginError"
-    ></div>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================
-     ADMIN
-========================= -->
-
-<div
-  class="admin"
-  id="adminScreen"
->
-
-
-  <header>
-
-    <div class="logo">
-      BLACK <span>STRIVE</span>
-    </div>
-
-
-    <button
-      class="logout"
-      id="logoutButton"
-    >
-      Sair
-    </button>
-
-  </header>
-
-
-
-  <main class="content">
-
-
-    <div class="welcome">
+      <div class="logo">
+        BLACK <span>STRIVE</span>
+      </div>
 
       <h1>
         Painel Administrativo
       </h1>
 
-      <p>
-        Gerencie sua loja BLACK STRIVE.
-      </p>
-
-    </div>
-
-
-
-    <div class="cards">
-
-
-      <div class="card">
-
-        <div>
-          📦 Produtos
-        </div>
-
-        <strong id="productsCount">
-          0
-        </strong>
-
+      <div class="subtitle">
+        Entre com sua conta de administrador.
       </div>
 
+      <form id="loginForm">
 
-      <div class="card">
+        <label for="email">
+          E-mail
+        </label>
 
-        <div>
-          🛒 Pedidos
-        </div>
+        <input
+          id="email"
+          type="email"
+          placeholder="Digite seu e-mail"
+          autocomplete="email"
+          required
+        >
 
-        <strong id="ordersCount">
-          0
-        </strong>
+        <label for="password">
+          Senha
+        </label>
 
-      </div>
+        <input
+          id="password"
+          type="password"
+          placeholder="Digite sua senha"
+          autocomplete="current-password"
+          required
+        >
 
+        <button
+          id="loginButton"
+          class="login-button"
+          type="submit"
+        >
+          ENTRAR
+        </button>
 
-      <div class="card">
-
-        <div>
-          💬 Mensagens
-        </div>
-
-        <strong id="messagesCount">
-          0
-        </strong>
-
-      </div>
-
-
-      <div class="card">
-
-        <div>
-          🏆 Campeonatos
-        </div>
-
-        <strong id="championshipsCount">
-          0
-        </strong>
-
-      </div>
-
-
-    </div>
-
-
-
-    <section class="section">
-
-      <h2>
-        Sistema
-      </h2>
+      </form>
 
       <div
-        class="status"
-        id="systemStatus"
-      >
-        Conectando ao banco de dados...
+        id="loginMessage"
+        class="message hidden"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==============================
+       PAINEL
+  =============================== -->
+
+  <section
+    id="adminScreen"
+    class="admin-screen hidden"
+  >
+
+    <header>
+
+      <div class="logo">
+        BLACK <span>STRIVE</span>
       </div>
 
-    </section>
+      <button
+        id="logoutButton"
+        class="logout"
+      >
+        SAIR
+      </button>
+
+    </header>
 
 
-  </main>
+    <main class="content">
 
-</div>
+      <div class="welcome">
 
+        <h1>
+          Painel Administrativo
+        </h1>
 
+        <p>
+          Bem-vindo ao painel da BLACK STRIVE.
+        </p>
 
-<!-- SUPABASE -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<script>
-
-  /*
-    ================================================
-    COLOQUE AQUI AS INFORMAÇÕES PÚBLICAS DO SUPABASE
-    ================================================
-  */
-
-  const SUPABASE_URL =
-    "https://iykwmwnajhqoglxfimip.supabase.co/rest/v1/";
+      </div>
 
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable__aaB-_qBO4wAvuYRwUuetA_IYNPxFFO";
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-title">
+            📦 Produtos
+          </div>
+
+          <span
+            id="productsCount"
+            class="card-number"
+          >
+            0
+          </span>
+        </div>
 
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
+        <div class="card">
+          <div class="card-title">
+            🛒 Pedidos
+          </div>
+
+          <span
+            id="ordersCount"
+            class="card-number"
+          >
+            0
+          </span>
+        </div>
+
+
+        <div class="card">
+          <div class="card-title">
+            💬 Mensagens
+          </div>
+
+          <span
+            id="messagesCount"
+            class="card-number"
+          >
+            0
+          </span>
+        </div>
+
+
+        <div class="card">
+          <div class="card-title">
+            🏆 Campeonatos
+          </div>
+
+          <span
+            id="championshipsCount"
+            class="card-number"
+          >
+            0
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2>
+          Status do sistema
+        </h2>
+
+        <div
+          id="systemStatus"
+          class="status"
+        >
+          Verificando conexão...
+        </div>
+
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    /*
+    ==================================================
+    CONFIGURAÇÃO DO SUPABASE
+    ==================================================
+
+    MANTENHA A SUA URL E A SUA CHAVE PÚBLICA
+    QUE VOCÊ JÁ COLOCOU AQUI ANTERIORMENTE.
+
+    NÃO COLOQUE SERVICE_ROLE OU SECRET KEY.
+    ==================================================
+    */
+
+    const SUPABASE_URL =
+      "https://iykwmwnajhqoglxfimip.supabase.co/rest/v1/";
+
+
+    const SUPABASE_ANON_KEY =
+      "sb_publishable__aaB-_qBO4wAvuYRwUuetA_IYNPxFFO";
+
+
+    /*
+    ==================================================
+    CRIAR CLIENTE
+    ==================================================
+    */
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
+
+
+    /*
+    ==================================================
+    ELEMENTOS
+    ==================================================
+    */
+
+    const loginScreen =
+      document.getElementById("loginScreen");
+
+    const adminScreen =
+      document.getElementById("adminScreen");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+
+    /*
+    ==================================================
+    MENSAGEM
+    ==================================================
+    */
+
+    function showLoginMessage(text, type) {
+
+      loginMessage.textContent = text;
+
+      loginMessage.className =
+        "message " + type;
+
+    }
+
+
+    function clearLoginMessage() {
+
+      loginMessage.textContent = "";
+
+      loginMessage.className =
+        "message hidden";
+
+    }
+
+
+    /*
+    ==================================================
+    MOSTRAR ADMIN
+    ==================================================
+    */
+
+    function showAdmin() {
+
+      loginScreen.classList.add("hidden");
+
+      adminScreen.classList.remove("hidden");
+
+      loadDashboard();
+
+    }
+
+
+    /*
+    ==================================================
+    MOSTRAR LOGIN
+    ==================================================
+    */
+
+    function showLogin() {
+
+      adminScreen.classList.add("hidden");
+
+      loginScreen.classList.remove("hidden");
+
+    }
+
+
+    /*
+    ==================================================
+    LOGIN
+    ==================================================
+    */
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        clearLoginMessage();
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+          "ENTRANDO...";
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        try {
+
+          const result =
+            await supabaseClient.auth.signInWithPassword({
+
+              email: email,
+
+              password: password
+
+            });
+
+
+          if (result.error) {
+
+            console.error(
+              "Erro de login:",
+              result.error
+            );
+
+
+            /*
+              MOSTRA O ERRO REAL DO SUPABASE.
+              Isso é importante para descobrirmos
+              o que está acontecendo.
+            */
+
+            showLoginMessage(
+              "Erro: " + result.error.message,
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          if (!result.data.session) {
+
+            showLoginMessage(
+              "O login foi processado, mas nenhuma sessão foi criada.",
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          showAdmin();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          showLoginMessage(
+            "Erro de conexão: " + error.message,
+            "error"
+          );
+
+        } finally {
+
+          loginButton.disabled = false;
+
+          loginButton.textContent =
+            "ENTRAR";
+
+        }
+
+      }
     );
 
 
-  /* ================================================
-     LOGIN
-  ================================================ */
+    /*
+    ==================================================
+    SAIR
+    ==================================================
+    */
 
-  const loginForm =
-    document.getElementById("loginForm");
-
-
-  loginForm.addEventListener(
-    "submit",
-    async function(event) {
-
-      event.preventDefault();
-
-
-      const email =
-        document.getElementById("email").value;
-
-
-      const password =
-        document.getElementById("password").value;
-
-
-      const error =
-        document.getElementById("loginError");
-
-
-      error.textContent =
-        "";
-
-
-      const {
-        data,
-        error: loginError
-      } =
-        await supabaseClient.auth.signInWithPassword({
-
-          email: email,
-
-          password: password
-
-        });
-
-
-      if (loginError) {
-
-        error.textContent =
-          "E-mail ou senha incorretos.";
-
-        return;
-
-      }
-
-
-      showAdmin();
-
-    }
-  );
-
-
-  /* ================================================
-     MOSTRAR PAINEL
-  ================================================ */
-
-  function showAdmin() {
-
-    document
-      .getElementById("loginScreen")
-      .style.display = "none";
-
-
-    document
-      .getElementById("adminScreen")
-      .style.display = "block";
-
-
-    loadDashboard();
-
-  }
-
-
-  /* ================================================
-     VERIFICAR USUÁRIO
-  ================================================ */
-
-  async function checkUser() {
-
-    const {
-      data
-    } =
-      await supabaseClient.auth.getSession();
-
-
-    if (
-      data.session
-    ) {
-
-      showAdmin();
-
-    }
-
-  }
-
-
-  /* ================================================
-     SAIR
-  ================================================ */
-
-  document
-    .getElementById("logoutButton")
-    .addEventListener(
+    logoutButton.addEventListener(
       "click",
       async function() {
 
         await supabaseClient.auth.signOut();
 
-        location.reload();
+        showLogin();
 
       }
     );
 
 
-  /* ================================================
-     DASHBOARD
-  ================================================ */
+    /*
+    ==================================================
+    DASHBOARD
+    ==================================================
+    */
 
-  async function loadDashboard() {
+    async function loadDashboard() {
 
-    try {
-
-      const products =
-        await supabaseClient
-          .from("products")
-          .select("*", {
-            count: "exact",
-            head: true
-          });
+      const systemStatus =
+        document.getElementById("systemStatus");
 
 
-      const orders =
-        await supabaseClient
-          .from("orders")
-          .select("*", {
-            count: "exact",
-            head: true
-          });
+      systemStatus.textContent =
+        "🔄 Carregando informações...";
 
 
-      const messages =
-        await supabaseClient
-          .from("messages")
-          .select("*", {
-            count: "exact",
-            head: true
-          });
+      try {
+
+        const products =
+          await supabaseClient
+            .from("products")
+            .select("*", {
+              count: "exact",
+              head: true
+            });
 
 
-      const championships =
-        await supabaseClient
-          .from("championships")
-          .select("*", {
-            count: "exact",
-            head: true
-          });
+        const orders =
+          await supabaseClient
+            .from("orders")
+            .select("*", {
+              count: "exact",
+              head: true
+            });
 
 
-      document
-        .getElementById("productsCount")
-        .textContent =
-        products.count || 0;
+        const messages =
+          await supabaseClient
+            .from("messages")
+            .select("*", {
+              count: "exact",
+              head: true
+            });
 
 
-      document
-        .getElementById("ordersCount")
-        .textContent =
-        orders.count || 0;
+        const championships =
+          await supabaseClient
+            .from("championships")
+            .select("*", {
+              count: "exact",
+              head: true
+            });
 
 
-      document
-        .getElementById("messagesCount")
-        .textContent =
-        messages.count || 0;
+        if (products.error) {
+          throw products.error;
+        }
+
+        if (orders.error) {
+          throw orders.error;
+        }
+
+        if (messages.error) {
+          throw messages.error;
+        }
+
+        if (championships.error) {
+          throw championships.error;
+        }
 
 
-      document
-        .getElementById("championshipsCount")
-        .textContent =
-        championships.count || 0;
+        document
+          .getElementById("productsCount")
+          .textContent =
+          products.count || 0;
 
 
-      document
-        .getElementById("systemStatus")
-        .textContent =
-        "🟢 Sistema conectado ao Supabase.";
+        document
+          .getElementById("ordersCount")
+          .textContent =
+          orders.count || 0;
 
-    } catch (error) {
 
-      document
-        .getElementById("systemStatus")
-        .textContent =
-        "⚠️ Erro ao conectar ao banco de dados.";
+        document
+          .getElementById("messagesCount")
+          .textContent =
+          messages.count || 0;
+
+
+        document
+          .getElementById("championshipsCount")
+          .textContent =
+          championships.count || 0;
+
+
+        systemStatus.textContent =
+          "🟢 Conectado ao Supabase.";
+
+      } catch (error) {
+
+        console.error(
+          "Erro ao carregar painel:",
+          error
+        );
+
+
+        systemStatus.textContent =
+          "⚠️ Login realizado, mas houve um erro ao carregar os dados: " +
+          error.message;
+
+      }
 
     }
 
-  }
+
+    /*
+    ==================================================
+    VERIFICAR SESSÃO EXISTENTE
+    ==================================================
+    */
+
+    async function checkSession() {
+
+      try {
+
+        const result =
+          await supabaseClient.auth.getSession();
 
 
-  /* ================================================
-     INICIAR
-  ================================================ */
+        if (
+          result.data &&
+          result.data.session
+        ) {
 
-  checkUser();
+          showAdmin();
 
-</script>
+        } else {
 
+          showLogin();
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Erro ao verificar sessão:",
+          error
+        );
+
+        showLogin();
+
+      }
+
+    }
+
+
+    /*
+    ==================================================
+    INICIAR
+    ==================================================
+    */
+
+    checkSession();
+
+
+    /*
+    ==================================================
+    OBSERVAR LOGIN/LOGOUT
+    ==================================================
+    */
+
+    supabaseClient.auth.onAuthStateChange(
+      function(event, session) {
+
+        if (
+          event === "SIGNED_IN" &&
+          session
+        ) {
+
+          showAdmin();
+
+        }
+
+        if (
+          event === "SIGNED_OUT"
+        ) {
+
+          showLogin();
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 
