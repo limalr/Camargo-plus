@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,9 +18,24 @@
       color: #fff;
     }
 
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
     .hidden {
       display: none !important;
     }
+
+    /* =========================
+       LOGIN
+    ========================= */
 
     .login-screen {
       min-height: 100vh;
@@ -58,12 +72,6 @@
       font-size: 28px;
     }
 
-    .subtitle {
-      color: #92909a;
-      line-height: 1.5;
-      margin-bottom: 25px;
-    }
-
     label {
       display: block;
       margin-top: 15px;
@@ -73,41 +81,45 @@
       color: #c8c4cf;
     }
 
-    input {
+    input,
+    select,
+    textarea {
       width: 100%;
-      padding: 14px;
+      padding: 13px;
       border: 1px solid #39323f;
       border-radius: 10px;
       background: #09090b;
       color: #fff;
-      font-size: 15px;
+      font-size: 14px;
       outline: none;
     }
 
-    input:focus {
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
       border-color: #914ce8;
     }
 
-    .login-button {
+    .login-button,
+    .primary-button {
       width: 100%;
-      margin-top: 22px;
+      margin-top: 20px;
       padding: 14px;
       border: 0;
       border-radius: 10px;
       background: #7c3bd1;
       color: white;
-      font-size: 15px;
       font-weight: 900;
-      cursor: pointer;
     }
 
-    .login-button:hover {
+    .login-button:hover,
+    .primary-button:hover {
       background: #914ce8;
-    }
-
-    .login-button:disabled {
-      opacity: .6;
-      cursor: wait;
     }
 
     .message {
@@ -130,35 +142,37 @@
       color: #9be4b0;
     }
 
+    /* =========================
+       ADMIN
+    ========================= */
+
     .admin-screen {
       min-height: 100vh;
     }
 
     header {
-      height: 72px;
+      min-height: 72px;
       padding: 0 5%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: #0c0c0f;
       border-bottom: 1px solid #29242f;
+      gap: 20px;
     }
 
     .logout {
-      width: auto;
-      margin: 0;
       padding: 9px 16px;
       border: 1px solid #3b3542;
       border-radius: 9px;
       background: #17151a;
       color: white;
-      cursor: pointer;
     }
 
     .content {
-      width: min(1200px, 92%);
+      width: min(1250px, 92%);
       margin: auto;
-      padding: 40px 0;
+      padding: 35px 0 60px;
     }
 
     .welcome h1 {
@@ -170,11 +184,40 @@
       color: #8d8994;
     }
 
+    /* =========================
+       MENU
+    ========================= */
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 30px 0 25px;
+    }
+
+    .menu button {
+      padding: 12px 18px;
+      border: 1px solid #342d3d;
+      border-radius: 10px;
+      background: #111114;
+      color: #ddd;
+    }
+
+    .menu button:hover,
+    .menu button.active {
+      background: #7c3bd1;
+      border-color: #914ce8;
+      color: #fff;
+    }
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
     .cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 18px;
-      margin-top: 30px;
     }
 
     .card {
@@ -196,8 +239,12 @@
       font-weight: 900;
     }
 
+    /* =========================
+       PAINÉIS
+    ========================= */
+
     .panel {
-      margin-top: 30px;
+      margin-top: 25px;
       padding: 25px;
       background: #111114;
       border: 1px solid #29242f;
@@ -208,6 +255,20 @@
       margin-top: 0;
     }
 
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .section-header button {
+      width: auto;
+      margin: 0;
+      padding: 11px 16px;
+    }
+
     .status {
       padding: 13px;
       border-radius: 9px;
@@ -215,19 +276,258 @@
       color: #aaa5b0;
     }
 
-    @media (max-width: 800px) {
+    /* =========================
+       TABELAS
+    ========================= */
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th,
+    td {
+      padding: 13px 10px;
+      border-bottom: 1px solid #29242f;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      color: #a35cf0;
+      font-size: 13px;
+    }
+
+    td {
+      color: #ddd;
+      font-size: 14px;
+    }
+
+    .product-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 9px;
+      border: 1px solid #39323f;
+      background: #09090b;
+    }
+
+    .action-button {
+      padding: 7px 10px;
+      border-radius: 7px;
+      border: 1px solid #39323f;
+      background: #1b1820;
+      color: #fff;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .edit-button:hover {
+      background: #503080;
+    }
+
+    .delete-button:hover {
+      background: #7a2228;
+    }
+
+    /* =========================
+       FORMULÁRIOS
+    ========================= */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .checkbox-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-row label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .checkbox-row input {
+      width: auto;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .form-actions button {
+      width: auto;
+      margin: 0;
+    }
+
+    .secondary-button {
+      padding: 13px 20px;
+      border: 1px solid #39323f;
+      border-radius: 10px;
+      background: #19171d;
+      color: #fff;
+    }
+
+    /* =========================
+       CHAT
+    ========================= */
+
+    .chat-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .chat-item {
+      padding: 17px;
+      border: 1px solid #302a37;
+      border-radius: 12px;
+      background: #0c0c0f;
+    }
+
+    .chat-item.unread {
+      border-color: #7c3bd1;
+    }
+
+    .chat-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .chat-name {
+      font-weight: 900;
+    }
+
+    .chat-date {
+      color: #77727e;
+      font-size: 12px;
+    }
+
+    .chat-message {
+      color: #c9c5ce;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .chat-reply {
+      margin-top: 12px;
+    }
+
+    .chat-reply textarea {
+      min-height: 70px;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: #000b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      width: min(700px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 25px;
+      background: #111114;
+      border: 1px solid #3b3345;
+      border-radius: 17px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .close-button {
+      border: 0;
+      background: transparent;
+      color: #aaa;
+      font-size: 25px;
+    }
+
+    .empty {
+      padding: 25px;
+      text-align: center;
+      color: #77727e;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      background: #251b31;
+      color: #c89cff;
+      font-size: 12px;
+    }
+
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    @media (max-width: 900px) {
       .cards {
         grid-template-columns: 1fr 1fr;
       }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       .cards {
         grid-template-columns: 1fr;
       }
 
-      .login-box {
-        padding: 25px;
+      header {
+        padding: 15px 4%;
+      }
+
+      .content {
+        width: 94%;
+      }
+
+      .welcome h1 {
+        font-size: 28px;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
   </style>
@@ -235,167 +535,139 @@
 
 <body>
 
-  <!-- ==============================
-       LOGIN
-  =============================== -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-  <section id="loginScreen" class="login-screen">
+<section id="loginScreen" class="login-screen">
 
-    <div class="login-box">
+  <div class="login-box">
 
-      <div class="logo">
-        BLACK <span>STRIVE</span>
-      </div>
-
-      <h1>
-        Painel Administrativo
-      </h1>
-
-      <div class="subtitle">
-        Entre com sua conta de administrador.
-      </div>
-
-      <form id="loginForm">
-
-        <label for="email">
-          E-mail
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="Digite seu e-mail"
-          autocomplete="email"
-          required
-        >
-
-        <label for="password">
-          Senha
-        </label>
-
-        <input
-          id="password"
-          type="password"
-          placeholder="Digite sua senha"
-          autocomplete="current-password"
-          required
-        >
-
-        <button
-          id="loginButton"
-          class="login-button"
-          type="submit"
-        >
-          ENTRAR
-        </button>
-
-      </form>
-
-      <div
-        id="loginMessage"
-        class="message hidden"
-      ></div>
-
+    <div class="logo">
+      BLACK <span>STRIVE</span>
     </div>
 
-  </section>
+    <h1>Painel Administrativo</h1>
 
+    <p style="color:#92909a;line-height:1.5;">
+      Entre com sua conta de administrador.
+    </p>
 
-  <!-- ==============================
-       PAINEL
-  =============================== -->
+    <form id="loginForm">
 
-  <section
-    id="adminScreen"
-    class="admin-screen hidden"
-  >
+      <label for="email">E-mail</label>
 
-    <header>
-
-      <div class="logo">
-        BLACK <span>STRIVE</span>
-      </div>
-
-      <button
-        id="logoutButton"
-        class="logout"
+      <input
+        id="email"
+        type="email"
+        placeholder="Digite seu e-mail"
+        autocomplete="email"
+        required
       >
-        SAIR
+
+      <label for="password">Senha</label>
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Digite sua senha"
+        autocomplete="current-password"
+        required
+      >
+
+      <button id="loginButton" class="login-button" type="submit">
+        ENTRAR
       </button>
 
-    </header>
+    </form>
+
+    <div id="loginMessage" class="message hidden"></div>
+
+  </div>
+
+</section>
 
 
-    <main class="content">
+<!-- =====================================================
+     ADMIN
+===================================================== -->
 
-      <div class="welcome">
+<section id="adminScreen" class="admin-screen hidden">
 
-        <h1>
-          Painel Administrativo
-        </h1>
+  <header>
 
-        <p>
-          Bem-vindo ao painel da BLACK STRIVE.
-        </p>
+    <div class="logo">
+      BLACK <span>STRIVE</span>
+    </div>
 
-      </div>
+    <button id="logoutButton" class="logout">
+      SAIR
+    </button>
 
+  </header>
+
+
+  <main class="content">
+
+    <div class="welcome">
+      <h1>Painel Administrativo</h1>
+      <p>Gerencie a loja BLACK STRIVE.</p>
+    </div>
+
+
+    <!-- MENU -->
+
+    <nav class="menu">
+
+      <button class="menu-button active" data-section="dashboard">
+        📊 Dashboard
+      </button>
+
+      <button class="menu-button" data-section="products">
+        🛍️ Produtos
+      </button>
+
+      <button class="menu-button" data-section="chat">
+        💬 Chat
+      </button>
+
+      <button class="menu-button" data-section="orders">
+        📦 Pedidos
+      </button>
+
+      <button class="menu-button" data-section="championships">
+        🏆 Campeonatos
+      </button>
+
+    </nav>
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <section id="dashboardSection" class="admin-section">
 
       <div class="cards">
 
         <div class="card">
-          <div class="card-title">
-            📦 Produtos
-          </div>
-
-          <span
-            id="productsCount"
-            class="card-number"
-          >
-            0
-          </span>
+          <div class="card-title">📦 Produtos</div>
+          <span id="productsCount" class="card-number">0</span>
         </div>
 
-
         <div class="card">
-          <div class="card-title">
-            🛒 Pedidos
-          </div>
-
-          <span
-            id="ordersCount"
-            class="card-number"
-          >
-            0
-          </span>
+          <div class="card-title">🛒 Pedidos</div>
+          <span id="ordersCount" class="card-number">0</span>
         </div>
 
-
         <div class="card">
-          <div class="card-title">
-            💬 Mensagens
-          </div>
-
-          <span
-            id="messagesCount"
-            class="card-number"
-          >
-            0
-          </span>
+          <div class="card-title">💬 Mensagens</div>
+          <span id="messagesCount" class="card-number">0</span>
         </div>
 
-
         <div class="card">
-          <div class="card-title">
-            🏆 Campeonatos
-          </div>
-
-          <span
-            id="championshipsCount"
-            class="card-number"
-          >
-            0
-          </span>
+          <div class="card-title">🏆 Campeonatos</div>
+          <span id="championshipsCount" class="card-number">0</span>
         </div>
 
       </div>
@@ -403,467 +675,2197 @@
 
       <div class="panel">
 
-        <h2>
-          Status do sistema
-        </h2>
+        <h2>Status do sistema</h2>
 
-        <div
-          id="systemStatus"
-          class="status"
-        >
+        <div id="systemStatus" class="status">
           Verificando conexão...
         </div>
 
       </div>
 
-    </main>
-
-  </section>
+    </section>
 
 
-  <!-- SUPABASE -->
+    <!-- =================================================
+         PRODUTOS
+    ================================================== -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <section id="productsSection" class="admin-section hidden">
+
+      <div class="panel">
+
+        <div class="section-header">
+
+          <div>
+            <h2>🛍️ Produtos</h2>
+            <p style="color:#77727e;">
+              Adicione, edite e remova produtos da loja.
+            </p>
+          </div>
+
+          <button
+            id="addProductButton"
+            class="primary-button"
+          >
+            ➕ Adicionar produto
+          </button>
+
+        </div>
 
 
-  <script>
+        <div class="table-wrapper">
 
-    /*
-    ==================================================
-    CONFIGURAÇÃO DO SUPABASE
-    ==================================================
+          <table>
 
-    MANTENHA A SUA URL E A SUA CHAVE PÚBLICA
-    QUE VOCÊ JÁ COLOCOU AQUI ANTERIORMENTE.
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+                <th>Tamanhos</th>
+                <th>Estoque</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
 
-    NÃO COLOQUE SERVICE_ROLE OU SECRET KEY.
-    ==================================================
-    */
+            <tbody id="productsTable"></tbody>
 
-    const SUPABASE_URL =
-      "https://iykwmwnajhqoglxfimip.supabase.co";
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
 
 
-    const SUPABASE_ANON_KEY =
-      "sb_publishable__aaB-_qBO4wAvuYRwUuetA_IYNPxFFO";
+    <!-- =================================================
+         CHAT
+    ================================================== -->
+
+    <section id="chatSection" class="admin-section hidden">
+
+      <div class="panel">
+
+        <div class="section-header">
+
+          <div>
+            <h2>💬 Chat</h2>
+            <p style="color:#77727e;">
+              Mensagens dos clientes.
+            </p>
+          </div>
+
+          <button
+            id="refreshChatButton"
+            class="secondary-button"
+          >
+            🔄 Atualizar
+          </button>
+
+        </div>
+
+        <div id="chatList" class="chat-list"></div>
+
+      </div>
+
+    </section>
 
 
-    /*
-    ==================================================
-    CRIAR CLIENTE
-    ==================================================
-    */
+    <!-- =================================================
+         PEDIDOS
+    ================================================== -->
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
+    <section id="ordersSection" class="admin-section hidden">
+
+      <div class="panel">
+
+        <div class="section-header">
+
+          <div>
+            <h2>📦 Pedidos</h2>
+            <p style="color:#77727e;">
+              Acompanhe os pedidos realizados.
+            </p>
+          </div>
+
+          <button
+            id="refreshOrdersButton"
+            class="secondary-button"
+          >
+            🔄 Atualizar
+          </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente ID</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+
+            <tbody id="ordersTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CAMPEONATOS
+    ================================================== -->
+
+    <section id="championshipsSection" class="admin-section hidden">
+
+      <div class="panel">
+
+        <div class="section-header">
+
+          <div>
+            <h2>🏆 Campeonatos</h2>
+            <p style="color:#77727e;">
+              Gerencie datas e informações dos campeonatos.
+            </p>
+          </div>
+
+          <button
+            id="addChampionshipButton"
+            class="primary-button"
+          >
+            ➕ Adicionar campeonato
+          </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Cidade</th>
+                <th>Local</th>
+                <th>Horário</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+
+            <tbody id="championshipsTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</section>
+
+
+<!-- =====================================================
+     MODAL PRODUTO
+===================================================== -->
+
+<div id="productModal" class="modal hidden">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2 id="productModalTitle">
+        Adicionar produto
+      </h2>
+
+      <button
+        class="close-button"
+        onclick="closeProductModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="productForm">
+
+      <input type="hidden" id="productId">
+
+
+      <div class="form-grid">
+
+        <div>
+          <label>Nome do produto</label>
+
+          <input
+            id="productName"
+            type="text"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label>Preço</label>
+
+          <input
+            id="productPrice"
+            type="number"
+            step="0.01"
+            min="0"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label>Categoria</label>
+
+          <input
+            id="productCategory"
+            type="text"
+            placeholder="Ex.: Camisetas"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label>Estoque</label>
+
+          <input
+            id="productStock"
+            type="number"
+            min="0"
+            value="0"
+            required
+          >
+        </div>
+
+
+        <div class="full">
+
+          <label>URL da foto</label>
+
+          <input
+            id="productImage"
+            type="url"
+            placeholder="https://..."
+          >
+
+        </div>
+
+
+        <div class="full">
+
+          <label>Tamanhos</label>
+
+          <input
+            id="productSizes"
+            type="text"
+            placeholder="Ex.: P, M, G, GG"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="checkbox-row">
+
+        <label>
+          <input id="productIsNew" type="checkbox">
+          🆕 Produto novo
+        </label>
+
+        <label>
+          <input id="productIsFeatured" type="checkbox">
+          ⭐ Produto em destaque
+        </label>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="primary-button"
+        >
+          💾 Salvar produto
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          onclick="closeProductModal()"
+        >
+          Cancelar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL CAMPEONATO
+===================================================== -->
+
+<div id="championshipModal" class="modal hidden">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2 id="championshipModalTitle">
+        Adicionar campeonato
+      </h2>
+
+      <button
+        class="close-button"
+        onclick="closeChampionshipModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="championshipForm">
+
+      <input type="hidden" id="championshipId">
+
+
+      <div class="form-grid">
+
+        <div class="full">
+
+          <label>Nome</label>
+
+          <input
+            id="championshipName"
+            type="text"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Data</label>
+
+          <input
+            id="championshipDate"
+            type="date"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Horário</label>
+
+          <input
+            id="championshipTime"
+            type="time"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Cidade</label>
+
+          <input
+            id="championshipCity"
+            type="text"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Local</label>
+
+          <input
+            id="championshipLocation"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="full">
+
+          <label>Descrição</label>
+
+          <textarea
+            id="championshipDescription"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="primary-button"
+        >
+          💾 Salvar campeonato
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          onclick="closeChampionshipModal()"
+        >
+          Cancelar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+  const SUPABASE_URL =
+    "https://iykwmwnajhqoglxfimip.supabase.co";
+
+  const SUPABASE_ANON_KEY =
+    "sb_publishable__aaB-_qBO4wAvuYRwUuetA_IYNPxFFO";
+
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+
+  /* =====================================================
+     ELEMENTOS
+  ===================================================== */
+
+  const loginScreen =
+    document.getElementById("loginScreen");
+
+  const adminScreen =
+    document.getElementById("adminScreen");
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const loginMessage =
+    document.getElementById("loginMessage");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+
+  /* =====================================================
+     FUNÇÕES GERAIS
+  ===================================================== */
+
+  function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+      return "";
+    }
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  function formatPrice(value) {
+
+    return Number(value || 0).toLocaleString(
+      "pt-BR",
+      {
+        style: "currency",
+        currency: "BRL"
+      }
+    );
+
+  }
+
+
+  function formatDate(value) {
+
+    if (!value) {
+      return "-";
+    }
+
+    const date = new Date(value);
+
+    return date.toLocaleDateString("pt-BR");
+
+  }
+
+
+  function showLoginMessage(text, type) {
+
+    loginMessage.textContent = text;
+
+    loginMessage.className =
+      "message " + type;
+
+  }
+
+
+  function clearLoginMessage() {
+
+    loginMessage.textContent = "";
+
+    loginMessage.className =
+      "message hidden";
+
+  }
+
+
+  /* =====================================================
+     LOGIN
+  ===================================================== */
+
+  loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+      clearLoginMessage();
+
+      loginButton.disabled = true;
+
+      loginButton.textContent =
+        "ENTRANDO...";
+
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+
+      try {
+
+        const result =
+          await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+          });
+
+
+        if (result.error) {
+
+          showLoginMessage(
+            "Erro: " + result.error.message,
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        if (!result.data.session) {
+
+          showLoginMessage(
+            "Nenhuma sessão foi criada.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        showAdmin();
+
+      } catch (error) {
+
+        showLoginMessage(
+          "Erro de conexão: " + error.message,
+          "error"
+        );
+
+      } finally {
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+          "ENTRAR";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     ADMIN
+  ===================================================== */
+
+  function showAdmin() {
+
+    loginScreen.classList.add("hidden");
+
+    adminScreen.classList.remove("hidden");
+
+    loadDashboard();
+
+  }
+
+
+  function showLogin() {
+
+    adminScreen.classList.add("hidden");
+
+    loginScreen.classList.remove("hidden");
+
+  }
+
+
+  /* =====================================================
+     LOGOUT
+  ===================================================== */
+
+  logoutButton.addEventListener(
+    "click",
+    async function() {
+
+      await supabaseClient.auth.signOut();
+
+      showLogin();
+
+    }
+  );
+
+
+  /* =====================================================
+     MENU
+  ===================================================== */
+
+  document
+    .querySelectorAll(".menu-button")
+    .forEach(function(button) {
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          const section =
+            button.dataset.section;
+
+
+          document
+            .querySelectorAll(".menu-button")
+            .forEach(function(item) {
+              item.classList.remove("active");
+            });
+
+
+          button.classList.add("active");
+
+
+          document
+            .querySelectorAll(".admin-section")
+            .forEach(function(item) {
+              item.classList.add("hidden");
+            });
+
+
+          document
+            .getElementById(section + "Section")
+            .classList.remove("hidden");
+
+
+          if (section === "dashboard") {
+            loadDashboard();
+          }
+
+          if (section === "products") {
+            loadProducts();
+          }
+
+          if (section === "chat") {
+            loadMessages();
+          }
+
+          if (section === "orders") {
+            loadOrders();
+          }
+
+          if (section === "championships") {
+            loadChampionships();
+          }
+
+        }
+      );
+
+    });
+
+
+  /* =====================================================
+     DASHBOARD
+  ===================================================== */
+
+  async function loadDashboard() {
+
+    const systemStatus =
+      document.getElementById("systemStatus");
+
+
+    systemStatus.textContent =
+      "🔄 Carregando informações...";
+
+
+    try {
+
+      const products =
+        await supabaseClient
+          .from("products")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      const orders =
+        await supabaseClient
+          .from("orders")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      const messages =
+        await supabaseClient
+          .from("messages")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      const championships =
+        await supabaseClient
+          .from("championships")
+          .select("*", {
+            count: "exact",
+            head: true
+          });
+
+
+      if (products.error) {
+        throw products.error;
+      }
+
+      if (orders.error) {
+        throw orders.error;
+      }
+
+      if (messages.error) {
+        throw messages.error;
+      }
+
+      if (championships.error) {
+        throw championships.error;
+      }
+
+
+      document.getElementById("productsCount")
+        .textContent = products.count || 0;
+
+      document.getElementById("ordersCount")
+        .textContent = orders.count || 0;
+
+      document.getElementById("messagesCount")
+        .textContent = messages.count || 0;
+
+      document.getElementById("championshipsCount")
+        .textContent = championships.count || 0;
+
+
+      systemStatus.textContent =
+        "🟢 Conectado ao Supabase.";
+
+    } catch (error) {
+
+      console.error(error);
+
+      systemStatus.textContent =
+        "⚠️ Erro ao carregar dados: " +
+        error.message;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     PRODUTOS
+  ===================================================== */
+
+  const productModal =
+    document.getElementById("productModal");
+
+  const productForm =
+    document.getElementById("productForm");
+
+
+  document
+    .getElementById("addProductButton")
+    .addEventListener(
+      "click",
+      function() {
+        openProductModal();
+      }
+    );
+
+
+  function openProductModal(product = null) {
+
+    productForm.reset();
+
+    document.getElementById("productId").value =
+      product?.id || "";
+
+    document.getElementById("productName").value =
+      product?.name || "";
+
+    document.getElementById("productPrice").value =
+      product?.price || "";
+
+    document.getElementById("productCategory").value =
+      product?.category || "";
+
+    document.getElementById("productImage").value =
+      product?.image_url || "";
+
+    document.getElementById("productStock").value =
+      product?.stock ?? 0;
+
+
+    let sizes = product?.sizes || "";
+
+    if (Array.isArray(sizes)) {
+      sizes = sizes.join(", ");
+    }
+
+    document.getElementById("productSizes").value =
+      sizes;
+
+
+    document.getElementById("productIsNew").checked =
+      Boolean(product?.is_new);
+
+    document.getElementById("productIsFeatured").checked =
+      Boolean(product?.is_featured);
+
+
+    document.getElementById("productModalTitle")
+      .textContent =
+      product
+        ? "Editar produto"
+        : "Adicionar produto";
+
+
+    productModal.classList.remove("hidden");
+
+  }
+
+
+  function closeProductModal() {
+
+    productModal.classList.add("hidden");
+
+  }
+
+
+  productForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const id =
+        document.getElementById("productId").value;
+
+
+      const name =
+        document.getElementById("productName").value.trim();
+
+
+      const price =
+        Number(
+          document.getElementById("productPrice").value
+        );
+
+
+      const category =
+        document.getElementById("productCategory").value.trim();
+
+
+      const image_url =
+        document.getElementById("productImage").value.trim();
+
+
+      const stock =
+        Number(
+          document.getElementById("productStock").value
+        );
+
+
+      const sizesText =
+        document.getElementById("productSizes").value.trim();
+
+
+      const sizes =
+        sizesText
+          ? sizesText
+              .split(",")
+              .map(item => item.trim())
+              .filter(Boolean)
+          : [];
+
+
+      const is_new =
+        document.getElementById("productIsNew").checked;
+
+
+      const is_featured =
+        document.getElementById("productIsFeatured").checked;
+
+
+      const data = {
+        name,
+        price,
+        category,
+        image_url,
+        sizes,
+        stock,
+        is_new,
+        is_featured
+      };
+
+
+      try {
+
+        let result;
+
+
+        if (id) {
+
+          result =
+            await supabaseClient
+              .from("products")
+              .update(data)
+              .eq("id", id);
+
+        } else {
+
+          result =
+            await supabaseClient
+              .from("products")
+              .insert(data);
+
+        }
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        alert(
+          id
+            ? "Produto atualizado com sucesso!"
+            : "Produto adicionado com sucesso!"
+        );
+
+
+        closeProductModal();
+
+        loadProducts();
+
+        loadDashboard();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Erro ao salvar produto:\n" +
+          error.message
+        );
+
+      }
+
+    }
+  );
+
+
+  async function loadProducts() {
+
+    const table =
+      document.getElementById("productsTable");
+
+
+    table.innerHTML =
+      `<tr>
+        <td colspan="7" class="empty">
+          🔄 Carregando produtos...
+        </td>
+      </tr>`;
+
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("products")
+          .select("*")
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      if (!result.data.length) {
+
+        table.innerHTML =
+          `<tr>
+            <td colspan="7" class="empty">
+              Nenhum produto cadastrado.
+            </td>
+          </tr>`;
+
+        return;
+
+      }
+
+
+      table.innerHTML = "";
+
+
+      result.data.forEach(function(product) {
+
+        let sizes = product.sizes || "";
+
+        if (Array.isArray(sizes)) {
+          sizes = sizes.join(", ");
+        }
+
+
+        const image =
+          product.image_url
+            ? `<img
+                class="product-image"
+                src="${escapeHTML(product.image_url)}"
+                alt="${escapeHTML(product.name)}"
+                onerror="this.style.display='none'"
+              >`
+            : "—";
+
+
+        const tags = [];
+
+        if (product.is_new) {
+          tags.push("🆕 Novo");
+        }
+
+        if (product.is_featured) {
+          tags.push("⭐ Destaque");
+        }
+
+
+        const row =
+          document.createElement("tr");
+
+
+        row.innerHTML = `
+
+          <td>${image}</td>
+
+          <td>
+            <strong>
+              ${escapeHTML(product.name)}
+            </strong>
+
+            ${
+              tags.length
+                ? `<br><small>${tags.join(" ")}</small>`
+                : ""
+            }
+          </td>
+
+          <td>
+            ${formatPrice(product.price)}
+          </td>
+
+          <td>
+            ${escapeHTML(product.category || "-")}
+          </td>
+
+          <td>
+            ${escapeHTML(sizes || "-")}
+          </td>
+
+          <td>
+            ${escapeHTML(product.stock ?? 0)}
+          </td>
+
+          <td>
+
+            <button
+              class="action-button edit-button"
+              onclick='editProduct(${JSON.stringify(product).replaceAll("'", "&#039;")})'
+            >
+              ✏️ Editar
+            </button>
+
+            <button
+              class="action-button delete-button"
+              onclick="deleteProduct('${product.id}')"
+            >
+              🗑️ Excluir
+            </button>
+
+          </td>
+        `;
+
+
+        table.appendChild(row);
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      table.innerHTML =
+        `<tr>
+          <td colspan="7" class="empty">
+            ⚠️ Erro: ${escapeHTML(error.message)}
+          </td>
+        </tr>`;
+
+    }
+
+  }
+
+
+  window.editProduct = function(product) {
+
+    openProductModal(product);
+
+  };
+
+
+  window.deleteProduct = async function(id) {
+
+    const confirmDelete =
+      confirm(
+        "Tem certeza que deseja excluir este produto?"
       );
 
 
-    /*
-    ==================================================
-    ELEMENTOS
-    ==================================================
-    */
-
-    const loginScreen =
-      document.getElementById("loginScreen");
-
-    const adminScreen =
-      document.getElementById("adminScreen");
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const loginMessage =
-      document.getElementById("loginMessage");
-
-    const logoutButton =
-      document.getElementById("logoutButton");
-
-
-    /*
-    ==================================================
-    MENSAGEM
-    ==================================================
-    */
-
-    function showLoginMessage(text, type) {
-
-      loginMessage.textContent = text;
-
-      loginMessage.className =
-        "message " + type;
-
+    if (!confirmDelete) {
+      return;
     }
 
 
-    function clearLoginMessage() {
+    try {
 
-      loginMessage.textContent = "";
+      const result =
+        await supabaseClient
+          .from("products")
+          .delete()
+          .eq("id", id);
 
-      loginMessage.className =
-        "message hidden";
 
-    }
+      if (result.error) {
+        throw result.error;
+      }
 
 
-    /*
-    ==================================================
-    MOSTRAR ADMIN
-    ==================================================
-    */
+      alert("Produto excluído com sucesso!");
 
-    function showAdmin() {
-
-      loginScreen.classList.add("hidden");
-
-      adminScreen.classList.remove("hidden");
+      loadProducts();
 
       loadDashboard();
 
-    }
+    } catch (error) {
 
+      console.error(error);
 
-    /*
-    ==================================================
-    MOSTRAR LOGIN
-    ==================================================
-    */
-
-    function showLogin() {
-
-      adminScreen.classList.add("hidden");
-
-      loginScreen.classList.remove("hidden");
+      alert(
+        "Erro ao excluir produto:\n" +
+        error.message
+      );
 
     }
 
+  };
 
-    /*
-    ==================================================
-    LOGIN
-    ==================================================
-    */
 
-    loginForm.addEventListener(
+  /* =====================================================
+     CHAT
+  ===================================================== */
+
+  document
+    .getElementById("refreshChatButton")
+    .addEventListener(
+      "click",
+      loadMessages
+    );
+
+
+  async function loadMessages() {
+
+    const chatList =
+      document.getElementById("chatList");
+
+
+    chatList.innerHTML =
+      `<div class="empty">
+        🔄 Carregando mensagens...
+      </div>`;
+
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("messages")
+          .select("*")
+          .order("created_at", {
+            ascending: true
+          });
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      if (!result.data.length) {
+
+        chatList.innerHTML =
+          `<div class="empty">
+            Nenhuma mensagem encontrada.
+          </div>`;
+
+        return;
+
+      }
+
+
+      chatList.innerHTML = "";
+
+
+      result.data.forEach(function(msg) {
+
+        const item =
+          document.createElement("div");
+
+
+        item.className =
+          "chat-item " +
+          (!msg.read ? "unread" : "");
+
+
+        const sender =
+          msg.sender || "customer";
+
+
+        item.innerHTML = `
+
+          <div class="chat-top">
+
+            <div>
+
+              <div class="chat-name">
+                ${escapeHTML(msg.customer_name || "Cliente")}
+              </div>
+
+              <small style="color:#77727e;">
+                ${escapeHTML(msg.customer_email || "")}
+              </small>
+
+            </div>
+
+            <div class="chat-date">
+              ${formatDate(msg.created_at)}
+            </div>
+
+          </div>
+
+
+          <div>
+            <span class="tag">
+              ${sender === "admin" ? "👤 Admin" : "👤 Cliente"}
+            </span>
+          </div>
+
+
+          <div class="chat-message">
+            ${escapeHTML(msg.message)}
+          </div>
+
+
+          <div>
+
+            ${
+              !msg.read
+                ? `<button
+                    class="action-button"
+                    onclick="markMessageRead('${msg.id}')"
+                  >
+                    ✓ Marcar como lida
+                  </button>`
+                : `<span style="color:#6bc47a;font-size:12px;">
+                    ✓ Lida
+                  </span>`
+            }
+
+          </div>
+
+
+          ${
+            sender !== "admin"
+              ? `
+                <div class="chat-reply">
+
+                  <textarea
+                    id="reply-${msg.id}"
+                    placeholder="Digite sua resposta..."
+                  ></textarea>
+
+                  <button
+                    class="action-button edit-button"
+                    onclick="replyMessage(
+                      '${msg.id}',
+                      '${escapeHTML(msg.customer_name || "")}',
+                      '${escapeHTML(msg.customer_email || "")}'
+                    )"
+                  >
+                    💬 Responder
+                  </button>
+
+                </div>
+              `
+              : ""
+          }
+
+        `;
+
+
+        chatList.appendChild(item);
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      chatList.innerHTML =
+        `<div class="empty">
+          ⚠️ Erro: ${escapeHTML(error.message)}
+        </div>`;
+
+    }
+
+  }
+
+
+  window.markMessageRead = async function(id) {
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("messages")
+          .update({
+            read: true
+          })
+          .eq("id", id);
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      loadMessages();
+
+      loadDashboard();
+
+    } catch (error) {
+
+      alert(
+        "Erro ao marcar mensagem:\n" +
+        error.message
+      );
+
+    }
+
+  };
+
+
+  window.replyMessage = async function(
+    messageId,
+    customerName,
+    customerEmail
+  ) {
+
+    const textarea =
+      document.getElementById(
+        "reply-" + messageId
+      );
+
+
+    const reply =
+      textarea.value.trim();
+
+
+    if (!reply) {
+
+      alert("Digite uma resposta.");
+
+      return;
+
+    }
+
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("messages")
+          .insert({
+            customer_name: customerName,
+            customer_email: customerEmail,
+            message: reply,
+            sender: "admin",
+            read: false
+          });
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      await supabaseClient
+        .from("messages")
+        .update({
+          read: true
+        })
+        .eq("id", messageId);
+
+
+      alert("Resposta enviada!");
+
+      loadMessages();
+
+      loadDashboard();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Erro ao enviar resposta:\n" +
+        error.message
+      );
+
+    }
+
+  };
+
+
+  /* =====================================================
+     PEDIDOS
+  ===================================================== */
+
+  document
+    .getElementById("refreshOrdersButton")
+    .addEventListener(
+      "click",
+      loadOrders
+    );
+
+
+  async function loadOrders() {
+
+    const table =
+      document.getElementById("ordersTable");
+
+
+    table.innerHTML =
+      `<tr>
+        <td colspan="6" class="empty">
+          🔄 Carregando pedidos...
+        </td>
+      </tr>`;
+
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("orders")
+          .select("*")
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      if (!result.data.length) {
+
+        table.innerHTML =
+          `<tr>
+            <td colspan="6" class="empty">
+              Nenhum pedido encontrado.
+            </td>
+          </tr>`;
+
+        return;
+
+      }
+
+
+      table.innerHTML = "";
+
+
+      result.data.forEach(function(order) {
+
+        const row =
+          document.createElement("tr");
+
+
+        row.innerHTML = `
+
+          <td>
+            ${escapeHTML(order.id)}
+          </td>
+
+          <td>
+            ${escapeHTML(order.customer_id)}
+          </td>
+
+          <td>
+            ${formatPrice(order.total)}
+          </td>
+
+          <td>
+
+            <select
+              onchange="changeOrderStatus(
+                '${order.id}',
+                this.value
+              )"
+            >
+
+              ${getStatusOption("pending", order.status)}
+              ${getStatusOption("paid", order.status)}
+              ${getStatusOption("processing", order.status)}
+              ${getStatusOption("shipped", order.status)}
+              ${getStatusOption("completed", order.status)}
+              ${getStatusOption("cancelled", order.status)}
+
+            </select>
+
+          </td>
+
+          <td>
+            ${formatDate(order.created_at)}
+          </td>
+
+          <td>
+            <span class="tag">
+              ${escapeHTML(order.status || "pending")}
+            </span>
+          </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      table.innerHTML =
+        `<tr>
+          <td colspan="6" class="empty">
+            ⚠️ Erro: ${escapeHTML(error.message)}
+          </td>
+        </tr>`;
+
+    }
+
+  }
+
+
+  function getStatusOption(value, current) {
+
+    const labels = {
+      pending: "Pendente",
+      paid: "Pago",
+      processing: "Preparando",
+      shipped: "Enviado",
+      completed: "Concluído",
+      cancelled: "Cancelado"
+    };
+
+
+    return `
+      <option
+        value="${value}"
+        ${current === value ? "selected" : ""}
+      >
+        ${labels[value]}
+      </option>
+    `;
+
+  }
+
+
+  window.changeOrderStatus =
+    async function(id, status) {
+
+      try {
+
+        const result =
+          await supabaseClient
+            .from("orders")
+            .update({
+              status
+            })
+            .eq("id", id);
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        loadOrders();
+
+      } catch (error) {
+
+        alert(
+          "Erro ao atualizar pedido:\n" +
+          error.message
+        );
+
+      }
+
+    };
+
+
+  /* =====================================================
+     CAMPEONATOS
+  ===================================================== */
+
+  const championshipModal =
+    document.getElementById(
+      "championshipModal"
+    );
+
+
+  document
+    .getElementById("addChampionshipButton")
+    .addEventListener(
+      "click",
+      function() {
+        openChampionshipModal();
+      }
+    );
+
+
+  function openChampionshipModal(championship = null) {
+
+    document
+      .getElementById("championshipForm")
+      .reset();
+
+
+    document.getElementById("championshipId").value =
+      championship?.id || "";
+
+
+    document.getElementById("championshipName").value =
+      championship?.name || "";
+
+
+    document.getElementById("championshipDate").value =
+      championship?.date || "";
+
+
+    document.getElementById("championshipCity").value =
+      championship?.city || "";
+
+
+    document.getElementById("championshipLocation").value =
+      championship?.location || "";
+
+
+    document.getElementById("championshipTime").value =
+      championship?.time || "";
+
+
+    document.getElementById("championshipDescription").value =
+      championship?.description || "";
+
+
+    document.getElementById("championshipModalTitle")
+      .textContent =
+      championship
+        ? "Editar campeonato"
+        : "Adicionar campeonato";
+
+
+    championshipModal.classList.remove("hidden");
+
+  }
+
+
+  function closeChampionshipModal() {
+
+    championshipModal.classList.add("hidden");
+
+  }
+
+
+  document
+    .getElementById("championshipForm")
+    .addEventListener(
       "submit",
       async function(event) {
 
         event.preventDefault();
 
-        clearLoginMessage();
 
-        loginButton.disabled = true;
-
-        loginButton.textContent =
-          "ENTRANDO...";
-
-
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
+        const id =
+          document.getElementById(
+            "championshipId"
+          ).value;
 
 
-        const password =
-          document
-            .getElementById("password")
-            .value;
+        const data = {
+
+          name:
+            document.getElementById(
+              "championshipName"
+            ).value.trim(),
+
+          date:
+            document.getElementById(
+              "championshipDate"
+            ).value,
+
+          city:
+            document.getElementById(
+              "championshipCity"
+            ).value.trim(),
+
+          location:
+            document.getElementById(
+              "championshipLocation"
+            ).value.trim(),
+
+          time:
+            document.getElementById(
+              "championshipTime"
+            ).value,
+
+          description:
+            document.getElementById(
+              "championshipDescription"
+            ).value.trim()
+
+        };
 
 
         try {
 
-          const result =
-            await supabaseClient.auth.signInWithPassword({
+          let result;
 
-              email: email,
 
-              password: password
+          if (id) {
 
-            });
+            result =
+              await supabaseClient
+                .from("championships")
+                .update(data)
+                .eq("id", id);
+
+          } else {
+
+            result =
+              await supabaseClient
+                .from("championships")
+                .insert(data);
+
+          }
 
 
           if (result.error) {
-
-            console.error(
-              "Erro de login:",
-              result.error
-            );
-
-
-            /*
-              MOSTRA O ERRO REAL DO SUPABASE.
-              Isso é importante para descobrirmos
-              o que está acontecendo.
-            */
-
-            showLoginMessage(
-              "Erro: " + result.error.message,
-              "error"
-            );
-
-            return;
-
+            throw result.error;
           }
 
 
-          if (!result.data.session) {
-
-            showLoginMessage(
-              "O login foi processado, mas nenhuma sessão foi criada.",
-              "error"
-            );
-
-            return;
-
-          }
+          alert(
+            id
+              ? "Campeonato atualizado!"
+              : "Campeonato adicionado!"
+          );
 
 
-          showAdmin();
+          closeChampionshipModal();
 
+          loadChampionships();
+
+          loadDashboard();
 
         } catch (error) {
 
           console.error(error);
 
-          showLoginMessage(
-            "Erro de conexão: " + error.message,
-            "error"
+          alert(
+            "Erro ao salvar campeonato:\n" +
+            error.message
           );
 
-        } finally {
-
-          loginButton.disabled = false;
-
-          loginButton.textContent =
-            "ENTRAR";
-
         }
 
       }
     );
 
 
-    /*
-    ==================================================
-    SAIR
-    ==================================================
-    */
+  async function loadChampionships() {
 
-    logoutButton.addEventListener(
-      "click",
-      async function() {
+    const table =
+      document.getElementById(
+        "championshipsTable"
+      );
 
-        await supabaseClient.auth.signOut();
 
-        showLogin();
+    table.innerHTML =
+      `<tr>
+        <td colspan="6" class="empty">
+          🔄 Carregando campeonatos...
+        </td>
+      </tr>`;
+
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("championships")
+          .select("*")
+          .order("date", {
+            ascending: true
+          });
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      if (!result.data.length) {
+
+        table.innerHTML =
+          `<tr>
+            <td colspan="6" class="empty">
+              Nenhum campeonato cadastrado.
+            </td>
+          </tr>`;
+
+        return;
 
       }
-    );
 
 
-    /*
-    ==================================================
-    DASHBOARD
-    ==================================================
-    */
-
-    async function loadDashboard() {
-
-      const systemStatus =
-        document.getElementById("systemStatus");
+      table.innerHTML = "";
 
 
-      systemStatus.textContent =
-        "🔄 Carregando informações...";
+      result.data.forEach(function(championship) {
+
+        const row =
+          document.createElement("tr");
 
 
-      try {
+        row.innerHTML = `
 
-        const products =
-          await supabaseClient
-            .from("products")
-            .select("*", {
-              count: "exact",
-              head: true
-            });
+          <td>
+            <strong>
+              ${escapeHTML(championship.name)}
+            </strong>
+          </td>
 
+          <td>
+            ${formatDate(championship.date)}
+          </td>
 
-        const orders =
-          await supabaseClient
-            .from("orders")
-            .select("*", {
-              count: "exact",
-              head: true
-            });
+          <td>
+            ${escapeHTML(championship.city || "-")}
+          </td>
 
+          <td>
+            ${escapeHTML(championship.location || "-")}
+          </td>
 
-        const messages =
-          await supabaseClient
-            .from("messages")
-            .select("*", {
-              count: "exact",
-              head: true
-            });
+          <td>
+            ${escapeHTML(championship.time || "-")}
+          </td>
 
+          <td>
 
-        const championships =
-          await supabaseClient
-            .from("championships")
-            .select("*", {
-              count: "exact",
-              head: true
-            });
+            <button
+              class="action-button edit-button"
+              onclick='editChampionship(${JSON.stringify(championship).replaceAll("'", "&#039;")})'
+            >
+              ✏️ Editar
+            </button>
 
+            <button
+              class="action-button delete-button"
+              onclick="deleteChampionship('${championship.id}')"
+            >
+              🗑️ Excluir
+            </button>
 
-        if (products.error) {
-          throw products.error;
-        }
+          </td>
 
-        if (orders.error) {
-          throw orders.error;
-        }
-
-        if (messages.error) {
-          throw messages.error;
-        }
-
-        if (championships.error) {
-          throw championships.error;
-        }
+        `;
 
 
-        document
-          .getElementById("productsCount")
-          .textContent =
-          products.count || 0;
+        table.appendChild(row);
+
+      });
 
 
-        document
-          .getElementById("ordersCount")
-          .textContent =
-          orders.count || 0;
+    } catch (error) {
 
+      console.error(error);
 
-        document
-          .getElementById("messagesCount")
-          .textContent =
-          messages.count || 0;
-
-
-        document
-          .getElementById("championshipsCount")
-          .textContent =
-          championships.count || 0;
-
-
-        systemStatus.textContent =
-          "🟢 Conectado ao Supabase.";
-
-      } catch (error) {
-
-        console.error(
-          "Erro ao carregar painel:",
-          error
-        );
-
-
-        systemStatus.textContent =
-          "⚠️ Login realizado, mas houve um erro ao carregar os dados: " +
-          error.message;
-
-      }
+      table.innerHTML =
+        `<tr>
+          <td colspan="6" class="empty">
+            ⚠️ Erro: ${escapeHTML(error.message)}
+          </td>
+        </tr>`;
 
     }
 
+  }
 
-    /*
-    ==================================================
-    VERIFICAR SESSÃO EXISTENTE
-    ==================================================
-    */
 
-    async function checkSession() {
+  window.editChampionship =
+    function(championship) {
+
+      openChampionshipModal(championship);
+
+    };
+
+
+  window.deleteChampionship =
+    async function(id) {
+
+      if (
+        !confirm(
+          "Tem certeza que deseja excluir este campeonato?"
+        )
+      ) {
+        return;
+      }
+
 
       try {
 
         const result =
-          await supabaseClient.auth.getSession();
+          await supabaseClient
+            .from("championships")
+            .delete()
+            .eq("id", id);
 
 
-        if (
-          result.data &&
-          result.data.session
-        ) {
-
-          showAdmin();
-
-        } else {
-
-          showLogin();
-
+        if (result.error) {
+          throw result.error;
         }
+
+
+        alert(
+          "Campeonato excluído com sucesso!"
+        );
+
+
+        loadChampionships();
+
+        loadDashboard();
 
       } catch (error) {
 
-        console.error(
-          "Erro ao verificar sessão:",
-          error
+        alert(
+          "Erro ao excluir campeonato:\n" +
+          error.message
         );
+
+      }
+
+    };
+
+
+  /* =====================================================
+     VERIFICAR SESSÃO
+  ===================================================== */
+
+  async function checkSession() {
+
+    try {
+
+      const result =
+        await supabaseClient.auth.getSession();
+
+
+      if (
+        result.data &&
+        result.data.session
+      ) {
+
+        showAdmin();
+
+      } else {
+
+        showLogin();
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      showLogin();
+
+    }
+
+  }
+
+
+  /* =====================================================
+     OBSERVAR LOGIN / LOGOUT
+  ===================================================== */
+
+  supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+      if (
+        event === "SIGNED_IN" &&
+        session
+      ) {
+
+        showAdmin();
+
+      }
+
+
+      if (
+        event === "SIGNED_OUT"
+      ) {
 
         showLogin();
 
       }
 
     }
+  );
 
 
-    /*
-    ==================================================
-    INICIAR
-    ==================================================
-    */
+  /* =====================================================
+     INICIAR
+  ===================================================== */
 
-    checkSession();
+  checkSession();
 
-
-    /*
-    ==================================================
-    OBSERVAR LOGIN/LOGOUT
-    ==================================================
-    */
-
-    supabaseClient.auth.onAuthStateChange(
-      function(event, session) {
-
-        if (
-          event === "SIGNED_IN" &&
-          session
-        ) {
-
-          showAdmin();
-
-        }
-
-        if (
-          event === "SIGNED_OUT"
-        ) {
-
-          showLogin();
-
-        }
-
-      }
-    );
-
-  </script>
+</script>
 
 </body>
-
 </html>
