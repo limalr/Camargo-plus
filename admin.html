@@ -122,6 +122,12 @@
       background: #914ce8;
     }
 
+    .login-button:disabled,
+    .primary-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .message {
       margin-top: 15px;
       padding: 12px;
@@ -384,6 +390,51 @@
       border-radius: 10px;
       background: #19171d;
       color: #fff;
+    }
+
+    /* =========================
+       UPLOAD DA FOTO
+    ========================= */
+
+    .image-upload-box {
+      margin-top: 8px;
+      padding: 18px;
+      border: 1px dashed #4a3a58;
+      border-radius: 12px;
+      background: #0b0a0d;
+    }
+
+    .image-upload-box input[type="file"] {
+      padding: 10px;
+      background: #09090b;
+    }
+
+    .image-preview-container {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .image-preview-container img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #39323f;
+      background: #09090b;
+      display: block;
+    }
+
+    .image-preview-name {
+      margin-top: 8px;
+      color: #8d8994;
+      font-size: 12px;
+      word-break: break-word;
+    }
+
+    .current-image-text {
+      margin-top: 8px;
+      color: #77727e;
+      font-size: 12px;
     }
 
     /* =========================
@@ -963,43 +1014,53 @@
         </div>
 
 
-      <div class="full">
+        <!-- =========================
+             NOVO UPLOAD DE FOTO
+        ========================= -->
 
-  <label>📷 Foto do produto</label>
+        <div class="full">
 
-  <input
-    id="productImageFile"
-    type="file"
-    accept="image/*"
-  >
+          <label>📷 Foto do produto</label>
 
-  <div id="productImagePreview" style="
-    margin-top:12px;
-    display:none;
-  ">
-    <img
-      id="productPreview"
-      src=""
-      alt="Prévia do produto"
-      style="
-        width:120px;
-        height:120px;
-        object-fit:cover;
-        border-radius:12px;
-        border:1px solid #39323f;
-      "
-    >
-  </div>
+          <div class="image-upload-box">
 
-  <small style="
-    display:block;
-    margin-top:8px;
-    color:#77727e;
-  ">
-    Escolha uma foto do seu computador.
-  </small>
+            <input
+              id="productImageFile"
+              type="file"
+              accept="image/*"
+            >
 
-</div>
+            <div
+              id="productImagePreview"
+              class="image-preview-container"
+            >
+
+              <img
+                id="productPreview"
+                src=""
+                alt="Prévia do produto"
+              >
+
+              <div
+                id="productImageName"
+                class="image-preview-name"
+              ></div>
+
+            </div>
+
+            <div
+              id="currentImageText"
+              class="current-image-text"
+            ></div>
+
+          </div>
+
+          <small style="display:block;margin-top:8px;color:#77727e;">
+            Escolha uma foto do seu computador. A imagem será enviada automaticamente para o armazenamento da BLACK STRIVE.
+          </small>
+
+        </div>
+
 
         <div class="full">
 
@@ -1034,6 +1095,7 @@
       <div class="form-actions">
 
         <button
+          id="saveProductButton"
           type="submit"
           class="primary-button"
         >
@@ -1592,104 +1654,235 @@
 
   const productForm =
     document.getElementById("productForm");
-/* =====================================================
-   UPLOAD DA FOTO DO PRODUTO
-===================================================== */
 
-const productImageFile =
-  document.getElementById("productImageFile");
+  const productImageFile =
+    document.getElementById("productImageFile");
 
-const productImagePreview =
-  document.getElementById("productImagePreview");
+  const productImagePreview =
+    document.getElementById("productImagePreview");
 
-const productPreview =
-  document.getElementById("productPreview");
+  const productPreview =
+    document.getElementById("productPreview");
+
+  const productImageName =
+    document.getElementById("productImageName");
+
+  const currentImageText =
+    document.getElementById("currentImageText");
+
+  const saveProductButton =
+    document.getElementById("saveProductButton");
 
 
-productImageFile.addEventListener(
-  "change",
-  function() {
+  /* =====================================================
+     PRÉVIA DA FOTO
+  ===================================================== */
 
-    const file = this.files[0];
+  productImageFile.addEventListener(
+    "change",
+    function() {
+
+      const file =
+        this.files[0];
+
+
+      if (!file) {
+
+        productImagePreview.style.display =
+          "none";
+
+        productPreview.src = "";
+
+        productImageName.textContent =
+          "";
+
+        return;
+
+      }
+
+
+      if (!file.type.startsWith("image/")) {
+
+        alert(
+          "Escolha uma imagem válida."
+        );
+
+        this.value = "";
+
+        productImagePreview.style.display =
+          "none";
+
+        productPreview.src = "";
+
+        productImageName.textContent =
+          "";
+
+        return;
+
+      }
+
+
+      const maxSize =
+        10 * 1024 * 1024;
+
+
+      if (file.size > maxSize) {
+
+        alert(
+          "A imagem é muito grande. Escolha uma imagem de até 10 MB."
+        );
+
+        this.value = "";
+
+        productImagePreview.style.display =
+          "none";
+
+        productPreview.src = "";
+
+        productImageName.textContent =
+          "";
+
+        return;
+
+      }
+
+
+      const imageURL =
+        URL.createObjectURL(file);
+
+
+      productPreview.src =
+        imageURL;
+
+
+      productImageName.textContent =
+        file.name;
+
+
+      productImagePreview.style.display =
+        "block";
+
+
+      currentImageText.textContent =
+        "📷 Nova foto selecionada. Ao salvar, ela será enviada para o Storage.";
+
+    }
+  );
+
+
+  /* =====================================================
+     UPLOAD DA FOTO PARA O SUPABASE STORAGE
+  ===================================================== */
+
+  async function uploadProductImage(file) {
 
     if (!file) {
-      productImagePreview.style.display = "none";
-      return;
+      return null;
     }
+
 
     if (!file.type.startsWith("image/")) {
 
-      alert("Escolha uma imagem válida.");
-
-      this.value = "";
-
-      productImagePreview.style.display = "none";
-
-      return;
-    }
-
-    const imageURL =
-      URL.createObjectURL(file);
-
-    productPreview.src = imageURL;
-
-    productImagePreview.style.display = "block";
-
-  }
-);
-
-
-/* =====================================================
-   ENVIAR FOTO PARA O SUPABASE STORAGE
-===================================================== */
-
-async function uploadProductImage(file) {
-
-  if (!file) {
-    return null;
-  }
-
-  const fileExtension =
-    file.name.split(".").pop().toLowerCase();
-
-  const fileName =
-    `${Date.now()}-${Math.random()
-      .toString(36)
-      .substring(2, 10)}.${fileExtension}`;
-
-  const filePath =
-    `products/${fileName}`;
-
-
-  const upload =
-    await supabaseClient
-      .storage
-      .from("products")
-      .upload(
-        filePath,
-        file,
-        {
-          cacheControl: "3600",
-          upsert: false
-        }
+      throw new Error(
+        "O arquivo selecionado não é uma imagem."
       );
 
+    }
 
-  if (upload.error) {
-    throw upload.error;
+
+    const maxSize =
+      10 * 1024 * 1024;
+
+
+    if (file.size > maxSize) {
+
+      throw new Error(
+        "A imagem deve ter no máximo 10 MB."
+      );
+
+    }
+
+
+    const originalName =
+      file.name || "imagem";
+
+
+    const extension =
+      originalName
+        .split(".")
+        .pop()
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+
+
+    const safeExtension =
+      extension || "jpg";
+
+
+    const uniqueName =
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2, 10) +
+      "." +
+      safeExtension;
+
+
+    const filePath =
+      "products/" +
+      uniqueName;
+
+
+    const uploadResult =
+      await supabaseClient
+        .storage
+        .from("products")
+        .upload(
+          filePath,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: file.type
+          }
+        );
+
+
+    if (uploadResult.error) {
+
+      throw uploadResult.error;
+
+    }
+
+
+    const publicResult =
+      supabaseClient
+        .storage
+        .from("products")
+        .getPublicUrl(filePath);
+
+
+    if (
+      !publicResult.data ||
+      !publicResult.data.publicUrl
+    ) {
+
+      throw new Error(
+        "Não foi possível obter a URL pública da imagem."
+      );
+
+    }
+
+
+    return publicResult.data.publicUrl;
+
   }
 
 
-  const publicURL =
-    supabaseClient
-      .storage
-      .from("products")
-      .getPublicUrl(filePath);
-
-
-  return publicURL.data.publicUrl;
-
-}
+  /* =====================================================
+     ABRIR MODAL PRODUTO
+  ===================================================== */
 
   document
     .getElementById("addProductButton")
@@ -1705,46 +1898,72 @@ async function uploadProductImage(file) {
 
     productForm.reset();
 
+
     document.getElementById("productId").value =
       product?.id || "";
+
 
     document.getElementById("productName").value =
       product?.name || "";
 
+
     document.getElementById("productPrice").value =
       product?.price || "";
+
 
     document.getElementById("productCategory").value =
       product?.category || "";
 
-    document.getElementById("productImageFile").value = "";
-
-if (product?.image_url) {
-
-  productPreview.src =
-    product.image_url;
-
-  productImagePreview.style.display =
-    "block";
-
-} else {
-
-  productPreview.src = "";
-
-  productImagePreview.style.display =
-    "none";
-
-}
 
     document.getElementById("productStock").value =
       product?.stock ?? 0;
 
 
-    let sizes = product?.sizes || "";
+    productImageFile.value = "";
+
+
+    if (product?.image_url) {
+
+      productPreview.src =
+        product.image_url;
+
+      productImagePreview.style.display =
+        "block";
+
+      productImageName.textContent =
+        "Foto atual do produto";
+
+      currentImageText.textContent =
+        "📷 A foto atual será mantida se você não escolher uma nova.";
+
+    } else {
+
+      productPreview.src =
+        "";
+
+      productImagePreview.style.display =
+        "none";
+
+      productImageName.textContent =
+        "";
+
+      currentImageText.textContent =
+        "Nenhuma foto cadastrada.";
+
+    }
+
+
+    let sizes =
+      product?.sizes || "";
+
 
     if (Array.isArray(sizes)) {
-      sizes = sizes.join(", ");
+
+      sizes =
+        sizes.join(", ");
+
     }
+
 
     document.getElementById("productSizes").value =
       sizes;
@@ -1752,6 +1971,7 @@ if (product?.image_url) {
 
     document.getElementById("productIsNew").checked =
       Boolean(product?.is_new);
+
 
     document.getElementById("productIsFeatured").checked =
       Boolean(product?.is_featured);
@@ -1776,6 +1996,10 @@ if (product?.image_url) {
   }
 
 
+  /* =====================================================
+     SALVAR PRODUTO
+  ===================================================== */
+
   productForm.addEventListener(
     "submit",
     async function(event) {
@@ -1799,39 +2023,6 @@ if (product?.image_url) {
 
       const category =
         document.getElementById("productCategory").value.trim();
-
-
-      let image_url = "";
-
-      const selectedImage =
-  document.getElementById("productImageFile").files[0];
-
-
-if (selectedImage) {
-
-  try {
-
-    image_url =
-      await uploadProductImage(selectedImage);
-
-  } catch (uploadError) {
-
-    console.error(uploadError);
-
-    alert(
-      "Erro ao enviar a foto:\n" +
-      uploadError.message
-    );
-
-    return;
-
-  }
-
-} else {
-
-  image_url = existingImageURL;
-
-}
 
 
       const stock =
@@ -1861,19 +2052,94 @@ if (selectedImage) {
         document.getElementById("productIsFeatured").checked;
 
 
-      const data = {
-        name,
-        price,
-        category,
-        image_url,
-        sizes,
-        stock,
-        is_new,
-        is_featured
-      };
+      const selectedImage =
+        productImageFile.files[0];
+
+
+      saveProductButton.disabled =
+        true;
+
+
+      saveProductButton.textContent =
+        selectedImage
+          ? "📤 Enviando foto..."
+          : "💾 Salvando...";
 
 
       try {
+
+        /* =============================================
+           RECUPERAR FOTO ATUAL
+        ============================================= */
+
+        let image_url = "";
+
+
+        if (id) {
+
+          const existingProduct =
+            await supabaseClient
+              .from("products")
+              .select("image_url")
+              .eq("id", id)
+              .single();
+
+
+          if (
+            existingProduct.error &&
+            existingProduct.error.code !== "PGRST116"
+          ) {
+
+            throw existingProduct.error;
+
+          }
+
+
+          image_url =
+            existingProduct.data?.image_url || "";
+
+        }
+
+
+        /* =============================================
+           ENVIAR NOVA FOTO, SE FOI ESCOLHIDA
+        ============================================= */
+
+        if (selectedImage) {
+
+          saveProductButton.textContent =
+            "📤 Enviando foto...";
+
+
+          image_url =
+            await uploadProductImage(
+              selectedImage
+            );
+
+        }
+
+
+        /* =============================================
+           DADOS DO PRODUTO
+        ============================================= */
+
+        const data = {
+
+          name,
+          price,
+          category,
+          image_url,
+          sizes,
+          stock,
+          is_new,
+          is_featured
+
+        };
+
+
+        saveProductButton.textContent =
+          "💾 Salvando produto...";
+
 
         let result;
 
@@ -1897,7 +2163,9 @@ if (selectedImage) {
 
 
         if (result.error) {
+
           throw result.error;
+
         }
 
 
@@ -1914,20 +2182,34 @@ if (selectedImage) {
 
         loadDashboard();
 
+
       } catch (error) {
 
         console.error(error);
 
         alert(
-          "Erro ao salvar produto:\n" +
+          "Erro ao salvar produto:\n\n" +
           error.message
         );
+
+
+      } finally {
+
+        saveProductButton.disabled =
+          false;
+
+        saveProductButton.textContent =
+          "💾 Salvar produto";
 
       }
 
     }
   );
 
+
+  /* =====================================================
+     CARREGAR PRODUTOS
+  ===================================================== */
 
   async function loadProducts() {
 
@@ -1978,10 +2260,15 @@ if (selectedImage) {
 
       result.data.forEach(function(product) {
 
-        let sizes = product.sizes || "";
+        let sizes =
+          product.sizes || "";
+
 
         if (Array.isArray(sizes)) {
-          sizes = sizes.join(", ");
+
+          sizes =
+            sizes.join(", ");
+
         }
 
 
@@ -1998,9 +2285,11 @@ if (selectedImage) {
 
         const tags = [];
 
+
         if (product.is_new) {
           tags.push("🆕 Novo");
         }
+
 
         if (product.is_featured) {
           tags.push("⭐ Destaque");
@@ -2120,9 +2409,11 @@ if (selectedImage) {
 
       alert("Produto excluído com sucesso!");
 
+
       loadProducts();
 
       loadDashboard();
+
 
     } catch (error) {
 
@@ -2331,6 +2622,7 @@ if (selectedImage) {
 
       loadDashboard();
 
+
     } catch (error) {
 
       alert(
@@ -2397,9 +2689,11 @@ if (selectedImage) {
 
       alert("Resposta enviada!");
 
+
       loadMessages();
 
       loadDashboard();
+
 
     } catch (error) {
 
@@ -2593,6 +2887,7 @@ if (selectedImage) {
 
         loadOrders();
 
+
       } catch (error) {
 
         alert(
@@ -2692,24 +2987,7 @@ if (selectedImage) {
           document.getElementById(
             "championshipId"
           ).value;
-        
-let existingImageURL = "";
 
-if (id) {
-
-  const existingProduct =
-    await supabaseClient
-      .from("products")
-      .select("image_url")
-      .eq("id", id)
-      .single();
-
-  if (!existingProduct.error) {
-    existingImageURL =
-      existingProduct.data?.image_url || "";
-  }
-
-}
 
         const data = {
 
@@ -2786,6 +3064,7 @@ if (id) {
           loadChampionships();
 
           loadDashboard();
+
 
         } catch (error) {
 
@@ -2965,6 +3244,7 @@ if (id) {
         loadChampionships();
 
         loadDashboard();
+
 
       } catch (error) {
 
