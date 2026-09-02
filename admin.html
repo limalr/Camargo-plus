@@ -963,18 +963,43 @@
         </div>
 
 
-        <div class="full">
+      <div class="full">
 
-          <label>URL da foto</label>
+  <label>📷 Foto do produto</label>
 
-          <input
-            id="productImage"
-            type="url"
-            placeholder="https://..."
-          >
+  <input
+    id="productImageFile"
+    type="file"
+    accept="image/*"
+  >
 
-        </div>
+  <div id="productImagePreview" style="
+    margin-top:12px;
+    display:none;
+  ">
+    <img
+      id="productPreview"
+      src=""
+      alt="Prévia do produto"
+      style="
+        width:120px;
+        height:120px;
+        object-fit:cover;
+        border-radius:12px;
+        border:1px solid #39323f;
+      "
+    >
+  </div>
 
+  <small style="
+    display:block;
+    margin-top:8px;
+    color:#77727e;
+  ">
+    Escolha uma foto do seu computador.
+  </small>
+
+</div>
 
         <div class="full">
 
@@ -1567,7 +1592,104 @@
 
   const productForm =
     document.getElementById("productForm");
+/* =====================================================
+   UPLOAD DA FOTO DO PRODUTO
+===================================================== */
 
+const productImageFile =
+  document.getElementById("productImageFile");
+
+const productImagePreview =
+  document.getElementById("productImagePreview");
+
+const productPreview =
+  document.getElementById("productPreview");
+
+
+productImageFile.addEventListener(
+  "change",
+  function() {
+
+    const file = this.files[0];
+
+    if (!file) {
+      productImagePreview.style.display = "none";
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+
+      alert("Escolha uma imagem válida.");
+
+      this.value = "";
+
+      productImagePreview.style.display = "none";
+
+      return;
+    }
+
+    const imageURL =
+      URL.createObjectURL(file);
+
+    productPreview.src = imageURL;
+
+    productImagePreview.style.display = "block";
+
+  }
+);
+
+
+/* =====================================================
+   ENVIAR FOTO PARA O SUPABASE STORAGE
+===================================================== */
+
+async function uploadProductImage(file) {
+
+  if (!file) {
+    return null;
+  }
+
+  const fileExtension =
+    file.name.split(".").pop().toLowerCase();
+
+  const fileName =
+    `${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 10)}.${fileExtension}`;
+
+  const filePath =
+    `products/${fileName}`;
+
+
+  const upload =
+    await supabaseClient
+      .storage
+      .from("products")
+      .upload(
+        filePath,
+        file,
+        {
+          cacheControl: "3600",
+          upsert: false
+        }
+      );
+
+
+  if (upload.error) {
+    throw upload.error;
+  }
+
+
+  const publicURL =
+    supabaseClient
+      .storage
+      .from("products")
+      .getPublicUrl(filePath);
+
+
+  return publicURL.data.publicUrl;
+
+}
 
   document
     .getElementById("addProductButton")
@@ -1595,8 +1717,24 @@
     document.getElementById("productCategory").value =
       product?.category || "";
 
-    document.getElementById("productImage").value =
-      product?.image_url || "";
+    document.getElementById("productImageFile").value = "";
+
+if (product?.image_url) {
+
+  productPreview.src =
+    product.image_url;
+
+  productImagePreview.style.display =
+    "block";
+
+} else {
+
+  productPreview.src = "";
+
+  productImagePreview.style.display =
+    "none";
+
+}
 
     document.getElementById("productStock").value =
       product?.stock ?? 0;
@@ -1663,8 +1801,37 @@
         document.getElementById("productCategory").value.trim();
 
 
-      const image_url =
-        document.getElementById("productImage").value.trim();
+      let image_url = "";
+
+      const selectedImage =
+  document.getElementById("productImageFile").files[0];
+
+
+if (selectedImage) {
+
+  try {
+
+    image_url =
+      await uploadProductImage(selectedImage);
+
+  } catch (uploadError) {
+
+    console.error(uploadError);
+
+    alert(
+      "Erro ao enviar a foto:\n" +
+      uploadError.message
+    );
+
+    return;
+
+  }
+
+} else {
+
+  image_url = existingImageURL;
+
+}
 
 
       const stock =
@@ -2525,7 +2692,24 @@
           document.getElementById(
             "championshipId"
           ).value;
+        
+let existingImageURL = "";
 
+if (id) {
+
+  const existingProduct =
+    await supabaseClient
+      .from("products")
+      .select("image_url")
+      .eq("id", id)
+      .single();
+
+  if (!existingProduct.error) {
+    existingImageURL =
+      existingProduct.data?.image_url || "";
+  }
+
+}
 
         const data = {
 
