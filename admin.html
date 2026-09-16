@@ -2647,31 +2647,31 @@
       );
 
 
-    const reply =
-      textarea.value.trim();
+  // Busca a mensagem original para pegar o session_id
+const { data: originalMessage, error: originalError } =
+  await supabaseClient
+    .from("messages")
+    .select("session_id")
+    .eq("id", messageId)
+    .single();
 
+if (originalError) {
+  console.error("Erro ao buscar conversa:", originalError);
+  alert("Não foi possível encontrar a conversa.");
+  return;
+}
 
-    if (!reply) {
-
-      alert("Digite uma resposta.");
-
-      return;
-
-    }
-
-
-    try {
-
-      const result =
-        await supabaseClient
-          .from("messages")
-          .insert({
-            customer_name: customerName,
-            customer_email: customerEmail,
-            message: reply,
-            sender: "admin",
-            read: false
-          });
+const result =
+  await supabaseClient
+    .from("messages")
+    .insert({
+      customer_name: customerName,
+      customer_email: customerEmail,
+      message: reply,
+      sender: "admin",
+      read: false,
+      session_id: originalMessage.session_id
+    });
 
 
       if (result.error) {
