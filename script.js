@@ -596,3 +596,45 @@ document.addEventListener(
 
   }
 );
+async function loadAdminReplies() {
+  let sessionId = localStorage.getItem("blackStriveChatSession");
+
+  if (!sessionId) return;
+
+  try {
+    const { data, error } = await supabaseClient
+      .rpc("get_chat_messages", {
+        p_session_id: sessionId
+      });
+
+    if (error) {
+      console.error("Erro ao carregar respostas:", error);
+      return;
+    }
+
+    if (!data) return;
+
+    data
+      .filter(msg => msg.sender === "admin")
+      .forEach(msg => {
+        if (!window.blackStriveSeenReplies) {
+          window.blackStriveSeenReplies = new Set();
+        }
+
+        if (window.blackStriveSeenReplies.has(msg.id)) return;
+
+        window.blackStriveSeenReplies.add(msg.id);
+
+        addMessage(msg.message, "bot");
+      });
+
+  } catch (error) {
+    console.error("Erro ao buscar respostas:", error);
+  }
+}
+
+// Verifica novas respostas a cada 3 segundos
+setInterval(loadAdminReplies, 3000);
+
+// Também verifica ao abrir o site
+loadAdminReplies();
