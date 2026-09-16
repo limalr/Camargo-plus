@@ -3,7 +3,6 @@
    SCRIPT PRINCIPAL
 ===================================================== */
 
-
 let cart = [];
 
 
@@ -16,30 +15,21 @@ function filterProducts(category) {
   const products =
     document.querySelectorAll(".product");
 
-
   const buttons =
     document.querySelectorAll(".category");
 
-
   buttons.forEach(function(button) {
-
     button.classList.remove("active");
-
   });
-
 
   const selectedButton =
     document.querySelector(
       `.category[data-category="${category}"]`
     );
 
-
   if (selectedButton) {
-
     selectedButton.classList.add("active");
-
   }
-
 
   products.forEach(function(product) {
 
@@ -48,28 +38,18 @@ function filterProducts(category) {
         .toLowerCase()
         .split(" ");
 
-
     if (category === "todos") {
-
       product.style.display = "";
-
       return;
-
     }
 
-
     if (categories.includes(category)) {
-
       product.style.display = "";
-
     } else {
-
       product.style.display = "none";
-
     }
 
   });
-
 
   document
     .getElementById("produtos")
@@ -91,18 +71,12 @@ function addToCart(
 ) {
 
   cart.push({
-
     name: name,
-
     price: price,
-
     size: size
-
   });
 
-
   updateCart();
-
   openCart();
 
 }
@@ -117,18 +91,14 @@ function addProductFromCard(
   const product =
     button.closest(".product");
 
-
   const select =
     product.querySelector(".size");
 
-
   let size = "";
-
 
   if (select) {
 
     size = select.value;
-
 
     if (!size) {
 
@@ -141,7 +111,6 @@ function addProductFromCard(
     }
 
   }
-
 
   addToCart(
     name,
@@ -157,24 +126,18 @@ function updateCart() {
   const items =
     document.getElementById("cartItems");
 
-
   const count =
     document.getElementById("cartCount");
-
 
   const totalElement =
     document.getElementById("cartTotal");
 
-
   count.textContent =
     cart.length;
 
-
   items.innerHTML = "";
 
-
   let total = 0;
-
 
   if (cart.length === 0) {
 
@@ -183,19 +146,15 @@ function updateCart() {
 
   }
 
-
   cart.forEach(function(item, index) {
 
     total += item.price;
 
-
     const line =
       document.createElement("div");
 
-
     line.className =
       "cart-line";
-
 
     line.innerHTML = `
 
@@ -217,7 +176,6 @@ function updateCart() {
 
       </div>
 
-
       <button
         class="remove"
         onclick="removeFromCart(${index})"
@@ -227,11 +185,9 @@ function updateCart() {
 
     `;
 
-
     items.appendChild(line);
 
   });
-
 
   totalElement.textContent =
     "R$ " + formatMoney(total);
@@ -254,7 +210,6 @@ function removeFromCart(index) {
     index,
     1
   );
-
 
   updateCart();
 
@@ -295,25 +250,19 @@ function checkout() {
 
   }
 
-
   closeCart();
-
 
   const summary =
     document.getElementById(
       "checkoutSummary"
     );
 
-
   let html = "";
-
   let total = 0;
-
 
   cart.forEach(function(item) {
 
     total += item.price;
-
 
     html += `
 
@@ -335,7 +284,6 @@ function checkout() {
 
   });
 
-
   html += `
 
     <hr>
@@ -346,10 +294,8 @@ function checkout() {
 
   `;
 
-
   summary.innerHTML =
     html;
-
 
   document
     .getElementById("checkoutModal")
@@ -371,18 +317,15 @@ function finishOrder(event) {
 
   event.preventDefault();
 
-
   const name =
     document.getElementById(
       "customerName"
     ).value.trim();
 
-
   const phone =
     document.getElementById(
       "customerPhone"
     ).value.trim();
-
 
   if (!name || !phone) {
 
@@ -394,16 +337,13 @@ function finishOrder(event) {
 
   }
 
-
   document
     .getElementById("checkoutForm")
     .classList.add("hidden");
 
-
   document
     .getElementById("orderDone")
     .classList.remove("hidden");
-
 
   document.getElementById(
     "orderMessage"
@@ -445,23 +385,18 @@ function addMessage(
       "messages"
     );
 
-
   const message =
     document.createElement("div");
-
 
   message.className =
     `message ${type}`;
 
-
   message.textContent =
     text;
-
 
   messages.appendChild(
     message
   );
-
 
   messages.scrollTop =
     messages.scrollHeight;
@@ -469,65 +404,153 @@ function addMessage(
 }
 
 
-function sendMessage(event) {
+/* =====================================================
+   ENVIAR MENSAGEM PARA O SUPABASE
+===================================================== */
+
+async function sendMessage(event) {
 
   event.preventDefault();
-
 
   const input =
     document.getElementById(
       "chatInput"
     );
 
-
   const text =
     input.value.trim();
 
-
   if (!text) {
-
     return;
-
   }
 
+  /*
+    Mostra imediatamente a mensagem
+    para o cliente.
+  */
 
   addMessage(
     text,
     "user"
   );
 
-
   input.value = "";
 
+  /*
+    Salva a mensagem no Supabase.
+  */
 
-  setTimeout(function() {
+  try {
+
+    const { error } =
+      await supabaseClient
+        .from("messages")
+        .insert([
+          {
+            customer_name: "Cliente",
+            customer_email: "",
+            message: text,
+            sender: "customer",
+            read: false
+          }
+        ]);
+
+    if (error) {
+
+      console.error(
+        "Erro ao enviar mensagem:",
+        error
+      );
+
+      addMessage(
+        "Não foi possível enviar sua mensagem. Tente novamente.",
+        "bot"
+      );
+
+      return;
+    }
 
     addMessage(
-      "Mensagem recebida! 👊 Para falar diretamente com a BLACK STRIVE, use nosso WhatsApp.",
+      "Mensagem enviada! 👊 Nossa equipe recebeu sua mensagem.",
       "bot"
     );
 
-  }, 500);
+  } catch (error) {
+
+    console.error(
+      "Erro de conexão:",
+      error
+    );
+
+    addMessage(
+      "Não foi possível conectar ao atendimento. Tente novamente.",
+      "bot"
+    );
+
+  }
 
 }
 
 
-function quickMessage(text) {
+/* =====================================================
+   BOTÕES RÁPIDOS
+===================================================== */
+
+async function quickMessage(text) {
 
   addMessage(
     text,
     "user"
   );
 
+  try {
 
-  setTimeout(function() {
+    const { error } =
+      await supabaseClient
+        .from("messages")
+        .insert([
+          {
+            customer_name: "Cliente",
+            customer_email: "",
+            message: text,
+            sender: "customer",
+            read: false
+          }
+        ]);
+
+    if (error) {
+
+      console.error(
+        "Erro ao enviar mensagem rápida:",
+        error
+      );
+
+      addMessage(
+        "Não foi possível enviar sua mensagem. Tente novamente.",
+        "bot"
+      );
+
+      return;
+    }
 
     addMessage(
-      "Claro! 👊 Vamos ajudar você. Para atendimento direto, fale conosco pelo WhatsApp.",
+      "Mensagem enviada! 👊 Nossa equipe recebeu sua mensagem.",
       "bot"
     );
 
-  }, 500);
+  } catch (error) {
+
+    console.error(
+      "Erro de conexão:",
+      error
+    );
+
+    addMessage(
+      "Não foi possível conectar ao atendimento. Tente novamente.",
+      "bot"
+    );
+
+  }
 
 }
 
