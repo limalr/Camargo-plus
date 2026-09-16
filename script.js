@@ -536,33 +536,30 @@ async function sendMessage(event) {
 ===================================================== */
 
 async function quickMessage(text) {
+  // Cria ou recupera o ID desta conversa
+  let sessionId = localStorage.getItem("blackStriveChatSession");
 
-  addMessage(
-    text,
-    "user"
-  );
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem("blackStriveChatSession", sessionId);
+  }
+
+  addMessage(text, "user");
 
   try {
-
-    const { error } =
-      await supabaseClient
-        .from("messages")
-        .insert([
-          {
-            customer_name: "Cliente",
-            customer_email: "",
-            message: text,
-            sender: "customer",
-            read: false
-          }
-        ]);
+    const { error } = await supabaseClient
+      .from("messages")
+      .insert([{
+        customer_name: "Cliente",
+        customer_email: "",
+        message: text,
+        sender: "customer",
+        read: false,
+        session_id: sessionId
+      }]);
 
     if (error) {
-
-      console.error(
-        "Erro ao enviar mensagem rápida:",
-        error
-      );
+      console.error("Erro ao enviar mensagem:", error);
 
       addMessage(
         "Não foi possível enviar sua mensagem. Tente novamente.",
@@ -578,21 +575,14 @@ async function quickMessage(text) {
     );
 
   } catch (error) {
-
-    console.error(
-      "Erro de conexão:",
-      error
-    );
+    console.error("Erro de conexão:", error);
 
     addMessage(
       "Não foi possível conectar ao atendimento. Tente novamente.",
       "bot"
     );
-
   }
-
 }
-
 
 /* =====================================================
    INICIALIZAÇÃO
