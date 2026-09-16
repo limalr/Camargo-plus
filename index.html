@@ -1046,6 +1046,21 @@
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://iykwmwnajhqoglxfimip.supabase.co";
+
+  const SUPABASE_ANON_KEY =
+    "sb_publishable__aaB-_qBO4wAvuYRwUuetA_IYNPxFFO";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+</script>
+
 <script src="script.js"></script>
 
 </body>
