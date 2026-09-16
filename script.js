@@ -409,20 +409,59 @@ function addMessage(
 ===================================================== */
 
 async function sendMessage(event) {
-
   event.preventDefault();
 
-  const input =
-    document.getElementById(
-      "chatInput"
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  // Cria um ID único para esta conversa
+  let sessionId = localStorage.getItem("blackStriveChatSession");
+
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem("blackStriveChatSession", sessionId);
+  }
+
+  addMessage(text, "user");
+  input.value = "";
+
+  try {
+    const { error } = await supabaseClient
+      .from("messages")
+      .insert([{
+        customer_name: "Cliente",
+        customer_email: "",
+        message: text,
+        sender: "customer",
+        read: false,
+        session_id: sessionId
+      }]);
+
+    if (error) {
+      console.error("Erro ao enviar mensagem:", error);
+      addMessage(
+        "Não foi possível enviar sua mensagem. Tente novamente.",
+        "bot"
+      );
+      return;
+    }
+
+    addMessage(
+      "Mensagem enviada! 👊 Nossa equipe recebeu sua mensagem.",
+      "bot"
     );
 
-  const text =
-    input.value.trim();
+  } catch (error) {
+    console.error("Erro de conexão:", error);
 
-  if (!text) {
-    return;
+    addMessage(
+      "Não foi possível conectar ao atendimento. Tente novamente.",
+      "bot"
+    );
   }
+}
 
   /*
     Mostra imediatamente a mensagem
