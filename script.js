@@ -1,433 +1,175 @@
-/* =====================================================
-   BLACK STRIVE
-   SCRIPT PRINCIPAL
-===================================================== */
+// ===============================
+// BLACK STRIVE - SCRIPT PRINCIPAL
+// ===============================
 
-let cart = [];
+// --------------------------------
+// VARIÁVEIS
+// --------------------------------
+
+let cart = JSON.parse(localStorage.getItem("blackStriveCart")) || [];
 
 
-/* =====================================================
-   CATEGORIAS
-===================================================== */
+// --------------------------------
+// CARRINHO
+// --------------------------------
 
-function filterProducts(category) {
-
-  const products =
-    document.querySelectorAll(".product");
-
-  const buttons =
-    document.querySelectorAll(".category");
-
-  buttons.forEach(function(button) {
-    button.classList.remove("active");
-  });
-
-  const selectedButton =
-    document.querySelector(
-      `.category[data-category="${category}"]`
-    );
-
-  if (selectedButton) {
-    selectedButton.classList.add("active");
-  }
-
-  products.forEach(function(product) {
-
-    const categories =
-      product.dataset.category
-        .toLowerCase()
-        .split(" ");
-
-    if (category === "todos") {
-      product.style.display = "";
-      return;
-    }
-
-    if (categories.includes(category)) {
-      product.style.display = "";
-    } else {
-      product.style.display = "none";
-    }
-
-  });
-
-  document
-    .getElementById("produtos")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
+function saveCart() {
+  localStorage.setItem("blackStriveCart", JSON.stringify(cart));
 }
 
+function updateCartCount() {
+  const countElements = document.querySelectorAll(".cart-count");
 
-/* =====================================================
-   CARRINHO
-===================================================== */
+  countElements.forEach(element => {
+    element.textContent = cart.length;
+  });
+}
 
-function addToCart(
-  name,
-  price,
-  size = ""
-) {
-
+function addToCart(name, price) {
   cart.push({
     name: name,
-    price: price,
-    size: size
+    price: Number(price)
   });
 
-  updateCart();
-  openCart();
+  saveCart();
+  updateCartCount();
 
+  alert("Produto adicionado ao carrinho! 🛒");
 }
 
-
-function addProductFromCard(
-  button,
-  name,
-  price
-) {
-
-  const product =
-    button.closest(".product");
-
-  const select =
-    product.querySelector(".size");
-
-  let size = "";
-
-  if (select) {
-
-    size = select.value;
-
-    if (!size) {
-
-      alert(
-        "Escolha um tamanho antes de adicionar ao carrinho."
-      );
-
-      return;
-
-    }
-
-  }
-
-  addToCart(
-    name,
-    price,
-    size
-  );
-
+function addProductFromCard(button, name, price) {
+  addToCart(name, price);
 }
-
-
-function updateCart() {
-
-  const items =
-    document.getElementById("cartItems");
-
-  const count =
-    document.getElementById("cartCount");
-
-  const totalElement =
-    document.getElementById("cartTotal");
-
-  count.textContent =
-    cart.length;
-
-  items.innerHTML = "";
-
-  let total = 0;
-
-  if (cart.length === 0) {
-
-    items.innerHTML =
-      "<p>Seu carrinho está vazio.</p>";
-
-  }
-
-  cart.forEach(function(item, index) {
-
-    total += item.price;
-
-    const line =
-      document.createElement("div");
-
-    line.className =
-      "cart-line";
-
-    line.innerHTML = `
-
-      <div>
-
-        <strong>
-          ${item.name}
-        </strong>
-
-        ${
-          item.size
-            ? `<br>Tamanho: ${item.size}`
-            : ""
-        }
-
-        <br>
-
-        R$ ${formatMoney(item.price)}
-
-      </div>
-
-      <button
-        class="remove"
-        onclick="removeFromCart(${index})"
-      >
-        Remover
-      </button>
-
-    `;
-
-    items.appendChild(line);
-
-  });
-
-  totalElement.textContent =
-    "R$ " + formatMoney(total);
-
-}
-
-
-function formatMoney(value) {
-
-  return value
-    .toFixed(2)
-    .replace(".", ",");
-
-}
-
 
 function removeFromCart(index) {
-
-  cart.splice(
-    index,
-    1
-  );
-
-  updateCart();
-
+  cart.splice(index, 1);
+  saveCart();
+  updateCartCount();
+  renderCart();
 }
 
+function renderCart() {
+  const cartContainer = document.getElementById("cartItems");
 
-function openCart() {
-
-  document
-    .getElementById("cartPanel")
-    .classList.add("open");
-
-}
-
-
-function closeCart() {
-
-  document
-    .getElementById("cartPanel")
-    .classList.remove("open");
-
-}
-
-
-/* =====================================================
-   CHECKOUT
-===================================================== */
-
-function checkout() {
+  if (!cartContainer) return;
 
   if (cart.length === 0) {
-
-    alert(
-      "Seu carrinho está vazio."
-    );
-
+    cartContainer.innerHTML = "<p>Seu carrinho está vazio.</p>";
     return;
-
   }
 
-  closeCart();
+  cartContainer.innerHTML = "";
 
-  const summary =
-    document.getElementById(
-      "checkoutSummary"
-    );
+  cart.forEach((item, index) => {
+    const div = document.createElement("div");
 
-  let html = "";
-  let total = 0;
+    div.className = "cart-item";
 
-  cart.forEach(function(item) {
-
-    total += item.price;
-
-    html += `
-
+    div.innerHTML = `
       <div>
-
-        ${item.name}
-
-        ${
-          item.size
-            ? ` — ${item.size}`
-            : ""
-        }
-
-        — R$ ${formatMoney(item.price)}
-
+        <strong>${item.name}</strong>
+        <p>R$ ${Number(item.price).toFixed(2)}</p>
       </div>
 
+      <button onclick="removeFromCart(${index})">
+        Remover
+      </button>
     `;
 
+    cartContainer.appendChild(div);
   });
+}
 
-  html += `
+function openCart() {
+  const cartElement = document.getElementById("cart");
 
-    <hr>
+  if (cartElement) {
+    cartElement.classList.remove("hidden");
+    renderCart();
+  }
+}
 
-    <strong>
-      Total: R$ ${formatMoney(total)}
-    </strong>
+function closeCart() {
+  const cartElement = document.getElementById("cart");
 
-  `;
-
-  summary.innerHTML =
-    html;
-
-  document
-    .getElementById("checkoutModal")
-    .classList.remove("hidden");
-
+  if (cartElement) {
+    cartElement.classList.add("hidden");
+  }
 }
 
 
-function closeCheckout() {
+// --------------------------------
+// CHAT
+// --------------------------------
 
-  document
-    .getElementById("checkoutModal")
-    .classList.add("hidden");
+function getChatSessionId() {
+  let sessionId = localStorage.getItem("blackStriveChatSession");
 
-}
-
-
-function finishOrder(event) {
-
-  event.preventDefault();
-
-  const name =
-    document.getElementById(
-      "customerName"
-    ).value.trim();
-
-  const phone =
-    document.getElementById(
-      "customerPhone"
-    ).value.trim();
-
-  if (!name || !phone) {
-
-    alert(
-      "Digite pelo menos seu nome e telefone."
-    );
-
-    return;
-
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem("blackStriveChatSession", sessionId);
   }
 
-  document
-    .getElementById("checkoutForm")
-    .classList.add("hidden");
-
-  document
-    .getElementById("orderDone")
-    .classList.remove("hidden");
-
-  document.getElementById(
-    "orderMessage"
-  ).textContent =
-    `Obrigado, ${name}! Recebemos seus dados. Em breve entraremos em contato.`;
-
+  return sessionId;
 }
 
+function addMessage(text, type) {
+  const messagesContainer = document.getElementById("messages");
 
-/* =====================================================
-   CHAT
-===================================================== */
+  if (!messagesContainer) return;
+
+  const message = document.createElement("div");
+
+  message.className = "message " + type;
+
+  message.textContent = text;
+
+  messagesContainer.appendChild(message);
+
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
 
 function openChat() {
+  const chat = document.getElementById("chat");
 
-  document
-    .getElementById("chat")
-    .classList.remove("hidden");
-
+  if (chat) {
+    chat.classList.remove("hidden");
+    loadAdminReplies();
+  }
 }
-
 
 function closeChat() {
+  const chat = document.getElementById("chat");
 
-  document
-    .getElementById("chat")
-    .classList.add("hidden");
-
+  if (chat) {
+    chat.classList.add("hidden");
+  }
 }
 
 
-function addMessage(
-  text,
-  type
-) {
-
-  const messages =
-    document.getElementById(
-      "messages"
-    );
-
-  const message =
-    document.createElement("div");
-
-  message.className =
-    `message ${type}`;
-
-  message.textContent =
-    text;
-
-  messages.appendChild(
-    message
-  );
-
-  messages.scrollTop =
-    messages.scrollHeight;
-
-}
-
-
-/* =====================================================
-   ENVIAR MENSAGEM PARA O SUPABASE
-===================================================== */
+// --------------------------------
+// ENVIAR MENSAGEM DIGITADA
+// --------------------------------
 
 async function sendMessage(event) {
   event.preventDefault();
 
   const input = document.getElementById("chatInput");
+
+  if (!input) return;
+
   const text = input.value.trim();
 
   if (!text) return;
 
-  // Cria um ID único para esta conversa
-  let sessionId = localStorage.getItem("blackStriveChatSession");
-
-  if (!sessionId) {
-    sessionId = crypto.randomUUID();
-    localStorage.setItem("blackStriveChatSession", sessionId);
-  }
+  const sessionId = getChatSessionId();
 
   addMessage(text, "user");
+
   input.value = "";
 
   try {
+
     const { error } = await supabaseClient
       .from("messages")
       .insert([{
@@ -441,10 +183,12 @@ async function sendMessage(event) {
 
     if (error) {
       console.error("Erro ao enviar mensagem:", error);
+
       addMessage(
         "Não foi possível enviar sua mensagem. Tente novamente.",
         "bot"
       );
+
       return;
     }
 
@@ -454,6 +198,7 @@ async function sendMessage(event) {
     );
 
   } catch (error) {
+
     console.error("Erro de conexão:", error);
 
     addMessage(
@@ -463,90 +208,19 @@ async function sendMessage(event) {
   }
 }
 
-  /*
-    Mostra imediatamente a mensagem
-    para o cliente.
-  */
 
-  addMessage(
-    text,
-    "user"
-  );
-
-  input.value = "";
-
-  /*
-    Salva a mensagem no Supabase.
-  */
-
-  try {
-
-    const { error } =
-      await supabaseClient
-        .from("messages")
-        .insert([
-          {
-            customer_name: "Cliente",
-            customer_email: "",
-            message: text,
-            sender: "customer",
-            read: false
-          }
-        ]);
-
-    if (error) {
-
-      console.error(
-        "Erro ao enviar mensagem:",
-        error
-      );
-
-      addMessage(
-        "Não foi possível enviar sua mensagem. Tente novamente.",
-        "bot"
-      );
-
-      return;
-    }
-
-    addMessage(
-      "Mensagem enviada! 👊 Nossa equipe recebeu sua mensagem.",
-      "bot"
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Erro de conexão:",
-      error
-    );
-
-    addMessage(
-      "Não foi possível conectar ao atendimento. Tente novamente.",
-      "bot"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   BOTÕES RÁPIDOS
-===================================================== */
+// --------------------------------
+// MENSAGENS RÁPIDAS
+// --------------------------------
 
 async function quickMessage(text) {
-  // Cria ou recupera o ID desta conversa
-  let sessionId = localStorage.getItem("blackStriveChatSession");
 
-  if (!sessionId) {
-    sessionId = crypto.randomUUID();
-    localStorage.setItem("blackStriveChatSession", sessionId);
-  }
+  const sessionId = getChatSessionId();
 
   addMessage(text, "user");
 
   try {
+
     const { error } = await supabaseClient
       .from("messages")
       .insert([{
@@ -559,6 +233,7 @@ async function quickMessage(text) {
       }]);
 
     if (error) {
+
       console.error("Erro ao enviar mensagem:", error);
 
       addMessage(
@@ -575,6 +250,7 @@ async function quickMessage(text) {
     );
 
   } catch (error) {
+
     console.error("Erro de conexão:", error);
 
     addMessage(
@@ -584,44 +260,44 @@ async function quickMessage(text) {
   }
 }
 
-/* =====================================================
-   INICIALIZAÇÃO
-===================================================== */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
+// --------------------------------
+// CARREGAR RESPOSTAS DO ADMIN
+// --------------------------------
 
-    updateCart();
-
-  }
-);
 async function loadAdminReplies() {
-  let sessionId = localStorage.getItem("blackStriveChatSession");
+
+  const sessionId = localStorage.getItem("blackStriveChatSession");
 
   if (!sessionId) return;
 
   try {
+
     const { data, error } = await supabaseClient
       .rpc("get_chat_messages", {
         p_session_id: sessionId
       });
 
     if (error) {
+
       console.error("Erro ao carregar respostas:", error);
+
       return;
     }
 
     if (!data) return;
 
+    if (!window.blackStriveSeenReplies) {
+      window.blackStriveSeenReplies = new Set();
+    }
+
     data
       .filter(msg => msg.sender === "admin")
       .forEach(msg => {
-        if (!window.blackStriveSeenReplies) {
-          window.blackStriveSeenReplies = new Set();
-        }
 
-        if (window.blackStriveSeenReplies.has(msg.id)) return;
+        if (window.blackStriveSeenReplies.has(msg.id)) {
+          return;
+        }
 
         window.blackStriveSeenReplies.add(msg.id);
 
@@ -629,12 +305,33 @@ async function loadAdminReplies() {
       });
 
   } catch (error) {
+
     console.error("Erro ao buscar respostas:", error);
   }
 }
 
-// Verifica novas respostas a cada 3 segundos
-setInterval(loadAdminReplies, 3000);
 
-// Também verifica ao abrir o site
-loadAdminReplies();
+// --------------------------------
+// VERIFICAR RESPOSTAS AUTOMATICAMENTE
+// --------------------------------
+
+setInterval(function () {
+
+  loadAdminReplies();
+
+}, 3000);
+
+
+// --------------------------------
+// INICIALIZAÇÃO
+// --------------------------------
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  updateCartCount();
+
+  renderCart();
+
+  loadAdminReplies();
+
+});
